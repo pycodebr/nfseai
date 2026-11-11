@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "nfseai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emite, cancela e gera o PDF de notas fiscais de serviço, com ensaio antes de emitir e controle contra nota em dobro.",
   "author": {
     "name": "PycodeBR (Felipe Azambuja)",

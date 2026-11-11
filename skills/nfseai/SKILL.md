@@ -4,7 +4,7 @@ description: 'Use when the user wants to issue (emitir), look up, list, cancel o
 license: MIT
 metadata:
   author: PycodeBR (Felipe Azambuja)
-  version: 0.1.0
+  version: 0.1.1
   homepage: https://github.com/pycodebr/nfseai
 ---
 

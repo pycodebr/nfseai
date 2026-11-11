@@ -2,6 +2,14 @@
 
 Todas as versões publicadas do nfseai. O formato segue o [versionamento semântico](https://semver.org/lang/pt-BR/).
 
+## 0.1.1 (2026-11-10)
+
+- `setup.sh` tenta a instalação dos pacotes uma segunda vez, sem cache, quando o download falha (um download
+  interrompido aparece no pip como erro de hash), e termina com uma mensagem que diz como rodar de novo se a
+  falha continuar. O problema apareceu em uma instalação de teste a partir do repositório público.
+- `setup.sh` confere se a tag da versão existe antes de instalar pelo GitHub, em vez de tentar a tag e cair
+  no `main` depois do erro.
+
 ## 0.1.0 (2026-11-10)
 
 Primeira versão pública.

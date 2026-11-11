@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nfseai"
-version = "0.1.0"
+version = "0.1.1"
 description = "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emissão, cancelamento e PDF, com CLI, biblioteca Python e skill."
 readme = "README.md"
 license = { text = "MIT" }

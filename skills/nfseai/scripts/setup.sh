@@ -54,28 +54,40 @@ if [[ ! -x "$VENV/bin/python" ]]; then
     "$UV" venv --quiet --python 3.12 "$VENV"
   fi
 fi
-pip_install() {
+pip_once() {
+  # $1 = "cache" ou "no-cache"; o restante são os argumentos do pip install
+  local mode="$1"; shift
   if "$VENV/bin/python" -m pip --version >/dev/null 2>&1; then
-    "$VENV/bin/python" -m pip install --quiet --disable-pip-version-check "$@"
+    local extra=(); [[ "$mode" == "no-cache" ]] && extra=(--no-cache-dir)
+    "$VENV/bin/python" -m pip install --quiet --disable-pip-version-check ${extra[@]+"${extra[@]}"} "$@"
   else
-    "$UV" pip install --quiet --python "$VENV/bin/python" "$@"
+    local extra=(); [[ "$mode" == "no-cache" ]] && extra=(--no-cache)
+    "$UV" pip install --quiet --python "$VENV/bin/python" ${extra[@]+"${extra[@]}"} "$@"
   fi
 }
+pip_install() {
+  # Um download interrompido aparece como erro de hash ou de rede: tenta mais uma vez, sem cache.
+  pip_once cache "$@" && return 0
+  say "a instalação dos pacotes falhou (a conexão pode ter oscilado); tentando de novo sem cache"
+  pip_once no-cache "$@"
+}
+RETRY_HINT="Confira a conexão com a internet e rode de novo: bash $SKILL_DIR/scripts/setup.sh"
 
 # 3. O pacote: do checkout quando a skill está dentro dele, senão do GitHub na versão da skill.
 if [[ -n "$REPO_DIR" && -f "$REPO_DIR/pyproject.toml" ]] && grep -q '^name = "nfseai"' "$REPO_DIR/pyproject.toml"; then
   if [[ "$REPO_DIR" == "$(cd "$HOME_DIR" && pwd -P)/src" ]]; then
     say "instalando o nfseai $VERSION a partir de $REPO_DIR (atualiza junto com o git pull)"
-    pip_install --editable "$REPO_DIR"
+    pip_install --editable "$REPO_DIR" || fail "não foi possível instalar o pacote. $RETRY_HINT"
   else
     say "instalando o nfseai $VERSION a partir de $REPO_DIR"
-    pip_install --upgrade "$REPO_DIR"
+    pip_install --upgrade "$REPO_DIR" || fail "não foi possível instalar o pacote. $RETRY_HINT"
   fi
 else
   command -v git >/dev/null 2>&1 || fail "o git é necessário para baixar o pacote. Instale o git e rode de novo."
-  say "instalando o nfseai $VERSION a partir de $REPO_URL"
-  pip_install --upgrade "nfseai @ git+$REPO_URL@v$VERSION" 2>/dev/null \
-    || pip_install --upgrade "nfseai @ git+$REPO_URL@main"
+  REF="main"
+  if git ls-remote --exit-code --tags "$REPO_URL" "v$VERSION" >/dev/null 2>&1; then REF="v$VERSION"; fi
+  say "instalando o nfseai $VERSION a partir de $REPO_URL ($REF)"
+  pip_install --upgrade "nfseai @ git+$REPO_URL@$REF" || fail "não foi possível instalar o pacote. $RETRY_HINT"
 fi
 
 # 4. O comando `nfseai`: um lançador estável em ~/.nfseai/bin e um link em ~/.local/bin.
