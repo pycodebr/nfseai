@@ -124,8 +124,9 @@ never emitted again): `nfseai registrar --referencia <id-da-venda> --chave <chav
 
 - Get the list from the user (document, amount, competência, reference for each). Rehearse each one and show
   a table. Authorization for the batch must name the batch ("pode emitir essas 12 notas").
-- Emit **one at a time, sequentially**, with the same session. Each emission takes several seconds (around
-  15 light requests; more with `--pdf`). Do not run two `nfseai` commands for the same company in parallel.
+- Emit **one at a time, sequentially**. In our measurements a rehearsal took about 20 seconds and the PDF
+  about 30 seconds more, so budget around a minute per invoice with `--pdf`, and run long batches in the
+  background. Do not run two `nfseai` commands for the same company in parallel.
 - Stop at the first non-zero exit and report. Never loop over failures.
 - Close with a readback: `nfseai registro --status emitida`, and `nfseai emitidas` for the period, compared
   with the list. Report per invoice: reference, number, access key, amount.

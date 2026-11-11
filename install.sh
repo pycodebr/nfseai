@@ -22,26 +22,30 @@ done
 say() { printf '\033[1;32m[nfseai]\033[0m %s\n' "$*"; }
 
 # funções com case em vez de arrays associativos: o macOS traz o bash 3.2
+CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+CODEX_DIR="${CODEX_HOME:-$HOME/.codex}"
+HERMES_DIR="${HERMES_HOME:-$HOME/.hermes}"
+OPENCODE_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
 skill_dir_for() {
   case "$1" in
-    claude) echo "$HOME/.claude/skills" ;;
+    claude) echo "$CLAUDE_DIR/skills" ;;
     codex|gemini|agents) echo "$HOME/.agents/skills" ;;
-    opencode) echo "$HOME/.config/opencode/skills" ;;
+    opencode) echo "$OPENCODE_DIR/skills" ;;
     agy) echo "$HOME/.gemini/config/skills" ;;
     cursor) echo "$HOME/.cursor/skills" ;;
-    hermes) echo "$HOME/.hermes/skills/productivity" ;;
+    hermes) echo "$HERMES_DIR/skills/productivity" ;;
     *) echo "" ;;
   esac
 }
 marker_for() {
   case "$1" in
-    claude) echo "$HOME/.claude" ;;
-    codex) echo "$HOME/.codex" ;;
+    claude) echo "$CLAUDE_DIR" ;;
+    codex) echo "$CODEX_DIR" ;;
     gemini) echo "$HOME/.gemini" ;;
-    opencode) echo "$HOME/.config/opencode" ;;
+    opencode) echo "$OPENCODE_DIR" ;;
     agy) echo "$HOME/.gemini/antigravity-cli" ;;
     cursor) echo "$HOME/.cursor" ;;
-    hermes) echo "$HOME/.hermes" ;;
+    hermes) echo "$HERMES_DIR" ;;
   esac
 }
 ALL_AGENTS="claude codex gemini opencode agy cursor hermes"

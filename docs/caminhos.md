@@ -24,7 +24,8 @@ preenche a nota em quatro telas. O `nfseai` faz o mesmo login e envia as mesmas 
 enviam, sem navegador.
 
 - Vantagens: funciona com o login que a empresa já tem, sem certificado; produz exatamente a nota que a tela
-  produziria; cobre consulta, emissão e cancelamento; cada emissão usa cerca de 15 requisições leves.
+  produziria; cobre consulta, emissão e cancelamento; cada emissão usa cerca de 15 requisições leves e leva menos de
+  um minuto.
 - Limites:
   - Não é um canal de integração oficial. O portal pode mudar o formulário ou adotar barreiras contra
     automação. A verificação de contrato transforma mudança de formulário em erro antes do envio, mas alguém

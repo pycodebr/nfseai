@@ -65,7 +65,8 @@ encontrada", "página da NFS-e sem chave de acesso reconhecível").
 | Symptom | Cause and fix |
 |---|---|
 | `PdfUnavailableError: o Playwright não está instalado` | `nfseai instalar-pdf` |
-| `PdfUnavailableError: o navegador não conseguiu gerar o PDF: ... Host system is missing dependencies` | Linux without Chromium's system libraries: `~/.nfseai/venv/bin/python -m playwright install-deps chromium` (asks for sudo), then try again |
+| `PdfUnavailableError: o navegador não conseguiu gerar o PDF: ...` mentioning missing dependencies or shared libraries | Linux without Chromium's system libraries: `~/.nfseai/venv/bin/python -m playwright install-deps chromium` (asks for sudo), then try again |
+| `nfseai instalar-pdf` fails with `error while loading shared libraries: libatomic.so.1` | Minimal Linux image (for example a slim container): `sudo apt install libatomic1`, run `nfseai instalar-pdf` again, then the `install-deps` command above |
 | The user wants the official DANFSe or the XML | Both are behind hCaptcha on the portal: the user downloads them in the browser ("NFS-e Emitidas"). The tool's PDF is the print version, with all the data and the access key |
 | No PDF support wanted | `nfseai impressao <chave> --out nota.html` saves the print version as HTML |
 

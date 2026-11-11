@@ -95,11 +95,13 @@ Se você prefere o gerenciador de plugins do próprio agente, use o comando dele
 | **Codex** | `codex plugin marketplace add pycodebr/nfseai && codex plugin add nfseai@nfseai` |
 | **Gemini CLI** | `gemini extensions install https://github.com/pycodebr/nfseai` |
 | **Antigravity (agy)** | `git clone https://github.com/pycodebr/nfseai ~/.nfseai/src && agy plugin install ~/.nfseai/src` |
-| **Hermes** | `hermes plugins install pycodebr/nfseai --enable` |
+| **Hermes** | `curl -fsSL https://raw.githubusercontent.com/pycodebr/nfseai/main/install.sh \| bash -s -- --agent hermes` |
 | **OpenCode** | `npx skills add pycodebr/nfseai -g -a opencode` |
 | **Qualquer outro agente com Agent Skills** | `npx skills add pycodebr/nfseai -g` |
 
 Dentro do Claude Code, os mesmos passos são `/plugin marketplace add pycodebr/nfseai` e `/plugin install nfseai@nfseai`.
+
+No Hermes, o caminho indicado é o instalador. O repositório também é um pacote Agent Plugins v1 válido (`hermes plugins validate` aprova), mas a verificação de segurança que o Hermes aplica a fontes da comunidade bloqueia a instalação pelo gerenciador de plugins, porque a documentação e o `setup.sh` contêm comandos de instalação (`pip install`, `git clone`). O instalador coloca a skill em `~/.hermes/skills/productivity/nfseai`, sem passar por esse bloqueio.
 
 ### Instalação manual
 
@@ -337,7 +339,7 @@ Antes de enviar cada passo, o cliente compara o formulário do portal com o form
 O `nfseai` só conversa com o Emissor Nacional. Se o seu município ainda não aderiu ao emissor nacional, a emissão continua no sistema da prefeitura.
 
 **Quanto tempo leva uma emissão?**
-Alguns segundos: são cerca de 15 requisições leves ao portal. Com o PDF, um pouco mais.
+Nas nossas medições, o ensaio levou cerca de 20 segundos e a geração do PDF, cerca de 30 segundos. A emissão confirmada refaz a conferência, envia a nota e lê o resultado de volta, então conte com algo perto de um minuto por nota com PDF.
 
 **Posso emitir várias notas de uma vez?**
 Sim, uma depois da outra. O agente ensaia todas, mostra a lista e emite em sequência depois da sua confirmação.
@@ -392,7 +394,7 @@ A responsabilidade pelas notas emitidas e canceladas é de quem as emite. Confir
 
 **nfseai** is an open-source plugin (Agent Skill + CLI + Python library) that lets AI coding agents issue, query and cancel Brazilian service invoices (NFS-e) on the national portal **Emissor Nacional** (`www.nfse.gov.br`), and render each invoice as a PDF, using the company's own portal login. No digital certificate is needed.
 
-- **One-command install for every agent:** `curl -fsSL https://raw.githubusercontent.com/pycodebr/nfseai/main/install.sh | bash` detects Claude Code, Codex, OpenCode, Gemini CLI, Antigravity, Cursor and Hermes, installs the skill and the `nfseai` command in an isolated environment. Native installs: `claude plugin marketplace add pycodebr/nfseai && claude plugin install nfseai@nfseai`, `codex plugin marketplace add pycodebr/nfseai && codex plugin add nfseai@nfseai`, `gemini extensions install https://github.com/pycodebr/nfseai`, `hermes plugins install pycodebr/nfseai --enable`, `npx skills add pycodebr/nfseai -g`.
+- **One-command install for every agent:** `curl -fsSL https://raw.githubusercontent.com/pycodebr/nfseai/main/install.sh | bash` detects Claude Code, Codex, OpenCode, Gemini CLI, Antigravity, Cursor and Hermes, installs the skill and the `nfseai` command in an isolated environment. Native installs: `claude plugin marketplace add pycodebr/nfseai && claude plugin install nfseai@nfseai`, `codex plugin marketplace add pycodebr/nfseai && codex plugin add nfseai@nfseai`, `gemini extensions install https://github.com/pycodebr/nfseai`, `npx skills add pycodebr/nfseai -g`.
 - **Credentials never go through the chat:** the user runs `nfseai conectar` in their own terminal; the password is read without echo, tested once and stored in `~/.nfseai` with mode 600. Servers use `NFSEAI_USER` / `NFSEAI_PASSWORD`.
 - **Safe fiscal acts:** every emission is rehearsed first (the draft is built, checked and discarded), emitting and cancelling require `--confirm`, a local ledger keyed by the sale reference prevents duplicate invoices, an emission is never retried automatically, and a contract check stops the emission if the portal form changes.
 - **Scope:** Simples Nacional companies (ME/EPP) with one issuing municipality, customers in Brazil, no ISSQN retention. MEI, companies outside Simples, foreign customers and the official XML/DANFSe download (behind captcha) are not supported.
