@@ -1,0 +1,2105 @@
+<html><body><input id="hdfAlertaSobreposicao" type="hidden" value=""/><input id="hdfIdr" type="hidden" value="DRAFT0001"/><input id="hdfCodMunIncid" type="hidden" value="4199999"/><input id="hdfCodMunEmi" type="hidden" value="4199999"/><input id="hdfCodMunToma" type="hidden" value="4199999"/><input id="hdfEndTomaExterior" type="hidden" value="value"/><input id="hdfCodMumInter" type="hidden" value="0"/><input id="hdfEndInterExterior" type="hidden" value="value"/><input id="hdfNivelInfoTomador" type="hidden" value="2"/><input id="hdfEhExportacao" type="hidden" value="0"/><input id="hdfEhSubstituicao" type="hidden"/><input id="hdfExigiuGrupoComexNfseSubsituida" type="hidden"/><input id="hdfCodigoIndOpSubstituida" type="hidden"/><input id="hdfTomadorNoExterior" type="hidden" value="false"/><input id="hdfIntermediarioNoExterior" type="hidden" value="false"/><input id="hdfInformadoCodTribMun" type="hidden" value="false"/><input id="hdfEhEmpresaMei" type="hidden" value="false"/><input id="hdfEhCompraGovernamental" type="hidden" value="false"/><input id="hdfPreencherInfoIBSCBS" type="hidden" value="false"/><form action="/EmissorNacional/DPS/Servico?idr=DRAFT0001" class="formdps" method="post"><input data-val="true" data-val-required="The ExigeGrupoCOMEX field is required." id="ExigeGrupoCOMEX" name="ExigeGrupoCOMEX" type="hidden" value="NAO"/><input id="LocalPrestacao_NomePaisPrestacao" name="LocalPrestacao.NomePaisPrestacao" type="hidden" value=""/><input id="LocalPrestacao_DescricaoMunicipioPrestacao" name="LocalPrestacao.DescricaoMunicipioPrestacao" type="hidden" value="Cidade Exemplo/PR"/><input id="ServicoPrestado_DescricaoCodigoTributacaoNacional" name="ServicoPrestado.DescricaoCodigoTributacaoNacional" type="hidden" value="08.02.01 - Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza."/><input id="ServicoPrestado_PreencherInfoIBSCBS" name="ServicoPrestado.PreencherInfoIBSCBS" type="hidden" value="NAO"/> <div class="pnlCollapse" id="pnlLocalPrestacao">
+<h2>Local do Fornecimento/Prestação do Serviço</h2>
+<div class="retratil">
+<div class="row">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>País<span class="asterisco">*</span></span></label>
+<select anterior="BR" class="form-control form-chosen" id="LocalPrestacao_CodigoPaisPrestacao" name="LocalPrestacao.CodigoPaisPrestacao"><option value="">Selecione...</option>
+<option value="AF">Afeganistão																</option>
+<option value="ZA">África do Sul																</option>
+<option value="AX">Aland, Ilhas																</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<option selected="selected" value="BR">Brasil																	</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="LocalPrestacao.CodigoPaisPrestacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-7">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Município<span class="asterisco">*</span></span></label>
+<select id="LocalPrestacao_CodigoMunicipioPrestacao" name="LocalPrestacao.CodigoMunicipioPrestacao">
+<option value="4199999">Cidade Exemplo/PR</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="LocalPrestacao.CodigoMunicipioPrestacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlServicoPrestado">
+<h2>Serviço/Fornecimento Prestado</h2>
+<div class="retratil">
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Tributação Nacional<span class="asterisco">*</span></span></label>
+<select id="ServicoPrestado_CodigoTributacaoNacional" name="ServicoPrestado.CodigoTributacaoNacional">
+<option value="08.02.01">08.02.01 - Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza.</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoTributacaoNacional" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlTributacaoMunicipal" style="display:none;">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<input id="hdfCodigoComplementarMunicipal" type="hidden"/>
+<input data-val="true" data-val-required="The CodigoComplementarMunicipalObrigatorio field is required." id="ServicoPrestado_CodigoComplementarMunicipalObrigatorio" name="ServicoPrestado.CodigoComplementarMunicipalObrigatorio" type="hidden" value="False"/>
+<label class="control-label"><span>Código Complementar Municipal<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ServicoPrestado_CodigoComplementarMunicipal" name="ServicoPrestado.CodigoComplementarMunicipal">
+<option value="">Selecione...</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoComplementarMunicipal" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="form-group form-group-lg" style="padding-top: 10px;">
+<label class="control-label"><span>O serviço/fornecimento prestado é um caso de: imunidade, exportação de serviço ou não incidência do ISSQN?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton"><label><input checked="checked" id="ServicoPrestado_HaExportacaoImunidadeNaoIncidencia" name="ServicoPrestado.HaExportacaoImunidadeNaoIncidencia" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="ServicoPrestado_HaExportacaoImunidadeNaoIncidencia" name="ServicoPrestado.HaExportacaoImunidadeNaoIncidencia" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.HaExportacaoImunidadeNaoIncidencia" data-valmsg-replace="true"></span>
+</div>
+<div class="row" id="pnlMotNaoIncid" style="display:none;">
+<div class="col-sm-12 col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Qual o motivo da não tributação do ISSQN sobre o serviço/fornecimento prestado?<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ServicoPrestado_MotivoNaoTributacao" name="ServicoPrestado.MotivoNaoTributacao"><option value="">Selecione...</option>
+<option value="2">Imunidade</option>
+<option value="3">Exportação de Serviço</option>
+<option value="4">Não incidência</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.MotivoNaoTributacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlTipoImunidade" style="display:none;">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Tipo de imunidade<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ServicoPrestado_TipoImunidade" name="ServicoPrestado.TipoImunidade"><option value="">Selecione...</option>
+<option value="1">Patrimônio, renda ou serviços, uns dos outros (CF88, Art 150, VI, "a")</option>
+<option value="2">Templos de qualquer culto (CF88, Art 150, VI, "b")</option>
+<option value="3">Patrimônio, renda ou serviços dos partidos políticos, inclusive suas fundações, das entidades sindicais dos trabalhadores, das instituições de educação e de assistência social, sem fins lucrativos, atendidos os requisitos da lei (CF88, Art 150, VI, "c")</option>
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.TipoImunidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div id="pnlResultadoExportacao" style="display:none;">
+<div class="bd-callout bd-callout-info">
+                    Para efeitos do ISSQN, uma operação pode representar uma exportação de serviço quando:<br/>
+                    a) o serviço foi concluído no exterior; ou,<br/>
+                    b) o resultado dessa prestação é verificado no exterior.
+                    <br/><br/>
+<b>Importante:</b> o prestador deverá possuir elementos de prova, a serem exibidos para o Fisco quando solicitado, de que os serviços
+                    foram executados de modo a atender uma demanda a ser satisfeita no mercado exterior, em favor do tomador que atue, como tal,
+                    naquele outro mercado.
+                </div>
+<div id="pnlResultadoExportacaoPais" style="display:none;">
+<div class="row">
+<div class="col-sm-12 col-md-6">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-required="The CodigoPaisResultadoEhObrigatorio field is required." id="ServicoPrestado_CodigoPaisResultadoEhObrigatorio" name="ServicoPrestado.CodigoPaisResultadoEhObrigatorio" type="hidden" value="False"/>
+<label class="control-label"><span>Informe o país em que se verificou o resultado do serviço/fornecimento prestado<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ServicoPrestado_CodigoPaisResultado" name="ServicoPrestado.CodigoPaisResultado"><option value="">Selecione...</option>
+<option value="AF">Afeganistão																</option>
+<option value="ZA">África do Sul																</option>
+<option value="AX">Aland, Ilhas																</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<option value="BR">Brasil																	</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoPaisResultado" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="pnlMunIncid" style="">
+<input data-val="true" data-val-number="O campo Codigo deve ser um número." id="MunicipioIncidencia_Codigo" name="MunicipioIncidencia.Codigo" type="hidden" value="4199999"/>
+<input data-val="true" data-val-number="O campo Tipo deve ser um número." id="MunicipioIncidencia_Tipo" name="MunicipioIncidencia.Tipo" type="hidden" value="1"/>
+<input id="MunicipioIncidencia_EhConveniado" name="MunicipioIncidencia.EhConveniado" type="hidden" value="True"/>
+<input id="MunicipioIncidencia_EhConvenioVigente" name="MunicipioIncidencia.EhConvenioVigente" type="hidden" value="True"/>
+<div class="bd-callout bd-callout-info" id="pnlMsgMunIncidencia" style="display:none;">
+                    ;
+                </div>
+<div class="row">
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Município de incidência do ISSQN</span><a class="" data-content="Município para o qual o ISSQN deverá der recolhido com base no disposto no art. 3º, da Lei Complementar nº 116, de 31 de julho de 2003." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control readonly" id="MunicipioIncidencia_Nome" name="MunicipioIncidencia.Nome" readonly="readonly" type="text" value="Cidade Exemplo/PR"/>
+<span class="field-validation-valid text-danger" data-valmsg-for="MunicipioIncidencia.Nome" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label">Data de Competência</label>
+<input id="DataCompetenciaFormat" type="hidden" value="2026-11-09"/>
+<input class="form-control" id="DataCompetencia" readonly="readonly" type="text" value="09/11/2026"/>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg" style="padding-top: 20px;">
+<label class="control-label"><span>Item da NBS correspondente ao serviço/fornecimento prestado<span class="asterisco">*</span></span><a class="" data-content="A NBS (Nomenclatura Brasileira de Serviços, intangíveis e outras operações que produzam variações no patrimônio) é o classificador nacional para a identificação dos serviços e viabiliza adequadamente a elaboração, fiscalização e avaliação de políticas públicas de forma integrada" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<select class="form-control form-chosen" id="ServicoPrestado_CodigoNBS" name="ServicoPrestado.CodigoNBS"><option value=""></option>
+<option value="101011100">101011100 - Serviços de construção de edificações residenciais de um e dois pavimentos</option>
+<option value="101011200">101011200 - Serviços de construção de edificações residenciais com mais de dois pavimentos</option>
+<option value="101012100">101012100 - Serviços de construção de edificações industriais</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<option selected="selected" value="122051900">122051900 - Outros serviços de educação, inclusive treinamento, não classificados em subposições anteriores</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoNBS" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código indicador da operação</span><a class="" data-content='Para emissões com IBS/CBS destacado as informações referentes ao código indicador da operação devem ser preenchidas.&lt;br/&gt;&lt;br/&gt;Consultar &lt;a href="https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/rtc/anexovii-indop_ibscbs_v1-01-00.xlsx" target="_blank"&gt;Anexo VII IndOp IBSCBS v1.01.00&lt;/a&gt; para mais informações sobre o código indicador da operação.' data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<select class="form-control form-chosen" id="ServicoPrestado_CodigoIndOp" name="ServicoPrestado.CodigoIndOp"><option value=""></option>
+<option value="">-</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoIndOp" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Descrição do Serviço/Fornecimento<span class="asterisco">*</span></span></label>
+<div class="multilinhas"><textarea class="form-control" cols="20" data-val="true" data-val-length="The field Descrição do Serviço/Fornecimento must be a string with a maximum length of 2000." data-val-length-max="2000" id="ServicoPrestado_Descricao" maxlength="2000" name="ServicoPrestado.Descricao" rows="8">
+Valor referente aos treinamentos prestados.</textarea><p class="contador">Total de caracteres: <span></span> / 2000</p></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.Descricao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlObra" style="display:none;">
+<h2 id="lblObraImovel">Informações do Imóvel</h2>
+<div class="retratil" id="pnlObraParaServico99" style="display:none;">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Preencher informações para obra field is required." id="InformarDadosObra" name="InformarDadosObra" type="checkbox" value="true"/><input name="InformarDadosObra" type="hidden" value="false"/>
+<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                        Preencher informações para obra
+                    </span>
+</label>
+</div>
+</div>
+<div class="retratil" id="pnlObraInformada" style="display:none;">
+<input data-val="true" data-val-required="The EhObrigatorio field is required." id="Obra_EhObrigatorio" name="Obra.EhObrigatorio" type="hidden" value="False"/>
+<input data-val="true" data-val-required="The EhObrigatorioObra field is required." id="Obra_EhObrigatorioObra" name="Obra.EhObrigatorioObra" type="hidden" value="False"/>
+<input data-val="true" data-val-required="The EhObrigatorioImovel field is required." id="Obra_EhObrigatorioImovel" name="Obra.EhObrigatorioImovel" type="hidden" value="False"/>
+<div class="form-group form-group-lg">
+<label class="control-label">
+<span>
+                        Selecione uma da opções abaixo:
+                        <span class="asterisco">*</span>
+</span>
+</label>
+<div class="radio-options">
+<div class="radiobutton"><label><input id="Obra_TipoInformacao" name="Obra.TipoInformacao" type="radio" value="1"/>Código de obra<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="Obra_TipoInformacao" name="Obra.TipoInformacao" type="radio" value="5"/>Código do Cadastro Imobiliário Brasileiro - CIB<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="Obra_TipoInformacao" name="Obra.TipoInformacao" type="radio" value="3"/>Endereço no Brasil<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="Obra_TipoInformacao" name="Obra.TipoInformacao" type="radio" value="4"/>Endereço no exterior<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.TipoInformacao" data-valmsg-replace="true"></span>
+</div>
+<div id="pnlObraDetalhes" style="display:none;">
+<div class="row" id="pnlObraCodigoObra" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código da Obra<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Código da Obra must be a string with a maximum length of 30." data-val-length-max="30" id="Obra_CodigoObra" maxlength="30" name="Obra.CodigoObra" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.CodigoObra" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlObraCodigoCIB" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código do Cadastro Imobiliário Brasileiro<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Código do Cadastro Imobiliário Brasileiro must be a string with a maximum length of 9." data-val-length-max="9" id="Obra_CodigoCIB" maxlength="9" name="Obra.CodigoCIB" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.CodigoCIB" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div id="pnlObraEndereco" style="display:none;">
+<div class="row" id="pnlObraEnderecoNacional" style="display:none;">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CEP<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Obra_CEP" maxlength="10" name="Obra.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Obra_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-number="O campo Município deve ser um número." id="Obra_CodigoMunicipio" name="Obra.CodigoMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município<span class="asterisco">*</span></span></label>
+<input class="form-control" id="Obra_NomeMunicipio" name="Obra.NomeMunicipio" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.CodigoMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input class="form-control bairro" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Obra_Bairro" maxlength="60" name="Obra.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input class="form-control logradouro" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Obra_Logradouro" maxlength="255" name="Obra.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Obra_Numero" maxlength="60" name="Obra.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Obra_Complemento" maxlength="156" name="Obra.Complemento" type="text" value=""/>
+</div>
+</div>
+</div>
+<div class="row" id="pnlObraEnderecoExterior" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Endereçamento Postal<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Código de Endereçamento Postal must be a string with a maximum length of 11." data-val-length-max="11" id="Obra_CodigoEnderecamentoPostal" maxlength="11" name="Obra.CodigoEnderecamentoPostal" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.CodigoEnderecamentoPostal" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Estado, província ou região<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Estado, província ou região must be a string with a maximum length of 60." data-val-length-max="60" id="Obra_EstadoProvinciaRegiao" maxlength="60" name="Obra.EstadoProvinciaRegiao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.EstadoProvinciaRegiao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Cidade<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Cidade must be a string with a maximum length of 60." data-val-length-max="60" id="Obra_Cidade" maxlength="60" name="Obra.Cidade" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.Cidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Inscrição Imobiliária Fiscal</span><a class="" data-content="A Inscrição Imobiliária Fiscal é o código fornecido pela prefeitura para a identificação da obra ou para fins de recolhimento do IPTU" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control" data-val="true" data-val-length="The field Inscrição Imobiliária Fiscal must be a string with a maximum length of 30." data-val-length-max="30" id="Obra_InscricaoImobiliaria" maxlength="30" name="Obra.InscricaoImobiliaria" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Obra.InscricaoImobiliaria" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlEvento" style="display:none;">
+<h2>Informações para Atividade de Evento</h2>
+<div class="retratil" id="pnlEventoParaServico99" style="display:none;">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Preencher informações para atividade de evento field is required." id="InformarDadosEvento" name="InformarDadosEvento" type="checkbox" value="true"/><input name="InformarDadosEvento" type="hidden" value="false"/>
+<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                        Preencher informações para atividade de evento
+                    </span>
+</label>
+</div>
+</div>
+<div class="retratil" id="pnlEventoInformado" style="display:none;">
+<input data-val="true" data-val-required="The EhObrigatorio field is required." id="Evento_EhObrigatorio" name="Evento.EhObrigatorio" type="hidden" value="False"/>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Data Inicial<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control data" data-val="true" data-val-date="O campo Data Inicial deve ser uma data." id="Evento_DataInicial" name="Evento.DataInicial" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btnCalendario" data-original-title="Abrir calendário" data-toggle="tooltip" id="btn_Evento_DataInicial" type="button"><div class="btn-calendario"></div></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.DataInicial" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Data Final<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control data" data-val="true" data-val-date="O campo Data Final deve ser uma data." id="Evento_DataFinal" name="Evento.DataFinal" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btnCalendario" data-original-title="Abrir calendário" data-toggle="tooltip" id="btn_Evento_DataFinal" type="button"><div class="btn-calendario"></div></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.DataFinal" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Descrição<span class="asterisco">*</span></span></label>
+<div class="multilinhas"><textarea class="form-control" cols="20" data-val="true" data-val-length="The field Descrição must be a string with a maximum length of 255." data-val-length-max="255" id="Evento_Descricao" maxlength="255" name="Evento.Descricao" rows="1">
+</textarea><p class="contador">Total de caracteres: <span></span> / 255</p></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Descricao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="form-group form-group-lg">
+<label class="control-label">
+<span>
+                        Selecione uma da opções abaixo:
+                        <span class="asterisco">*</span>
+</span>
+</label>
+<div class="radio-options">
+<div class="radiobutton"><label><input id="Evento_TipoInformacao" name="Evento.TipoInformacao" type="radio" value="1"/>Identificador<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="Evento_TipoInformacao" name="Evento.TipoInformacao" type="radio" value="3"/>Endereço no Brasil<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="Evento_TipoInformacao" name="Evento.TipoInformacao" type="radio" value="4"/>Endereço no exterior<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.TipoInformacao" data-valmsg-replace="true"></span>
+</div>
+<div id="pnlEventoDetalhes" style="display:none;">
+<div class="row" id="pnlEventoIdentificacao" style="display:none;">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Identificação<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Identificação must be a string with a maximum length of 30." data-val-length-max="30" id="Evento_Identificacao" maxlength="30" name="Evento.Identificacao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Identificacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div id="pnlEventoEndereco" style="display:none;">
+<div class="row" id="pnlEventoEnderecoNacional" style="display:none;">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CEP<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Evento_CEP" maxlength="10" name="Evento.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Evento_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-number="O campo Município deve ser um número." id="Evento_CodigoMunicipio" name="Evento.CodigoMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município<span class="asterisco">*</span></span></label>
+<input class="form-control" id="Evento_NomeMunicipio" name="Evento.NomeMunicipio" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.CodigoMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input class="form-control bairro" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Evento_Bairro" maxlength="60" name="Evento.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input class="form-control logradouro" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Evento_Logradouro" maxlength="255" name="Evento.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Evento_Numero" maxlength="60" name="Evento.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Evento_Complemento" maxlength="156" name="Evento.Complemento" type="text" value=""/>
+</div>
+</div>
+</div>
+<div class="row" id="pnlEventoEnderecoExterior" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Endereçamento Postal<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Código de Endereçamento Postal must be a string with a maximum length of 11." data-val-length-max="11" id="Evento_CodigoEnderecamentoPostal" maxlength="11" name="Evento.CodigoEnderecamentoPostal" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.CodigoEnderecamentoPostal" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Estado, província ou região<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Estado, província ou região must be a string with a maximum length of 60." data-val-length-max="60" id="Evento_EstadoProvinciaRegiao" maxlength="60" name="Evento.EstadoProvinciaRegiao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.EstadoProvinciaRegiao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Cidade<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Cidade must be a string with a maximum length of 60." data-val-length-max="60" id="Evento_Cidade" maxlength="60" name="Evento.Cidade" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Evento.Cidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlComercioExterior" style="display:none;">
+<h2>Informações para Comércio Exterior</h2>
+<div class="retratil">
+<div class="bd-callout bd-callout-info" id="pnlMsgGrupoCOMEX" style="margin-bottom:25px;">
+                Para a RFB, a prestação de serviço caracteriza-se como uma operação de comércio exterior
+                quando existe ao menos um dos seguintes itens identificados/localizados no exterior:
+                tomador, intermediário ou local da prestação do serviço.
+                Desta forma, são exigidas do emitente da DPS informações acerca deste tipo de transação
+                conforme a seguir.
+            </div>
+<div class="row">
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Modo de Prestação<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ComercioExterior_ModoPrestacao" name="ComercioExterior.ModoPrestacao"><option value="">Selecione...</option>
+<option value="1">Transfronteiriço</option>
+<option value="2">Consumo no Brasil</option>
+<option value="3">Movimento Temporário de Pessoas Físicas</option>
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.ModoPrestacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Vínculo entre as partes no negócio<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ComercioExterior_VinculoPrestacao" name="ComercioExterior.VinculoPrestacao"><option value="">Selecione...</option>
+<option value="0">Sem vínculo com o tomador/ Prestador</option>
+<option value="1">Controlada</option>
+<option value="2">Controladora</option>
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.VinculoPrestacao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Moeda<span class="asterisco">*</span></span><a class="" data-content="Identifica a moeda da transação comercial. Informar o código da moeda composto por 3 dígitos numéricos." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control numerico" data-val="true" data-val-length="O código da moeda deve ser composto por 3 dígitos" data-val-length-max="3" data-val-length-min="3" id="ComercioExterior_TipoMoeda" maxlength="3" name="ComercioExterior.TipoMoeda" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.TipoMoeda" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Valor do serviço/fornecimento em moeda estrangeira<span class="asterisco">*</span></span><a class="" data-content="Valor do serviço/fornecimento prestado expresso na moeda estrangeira especificada" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control monetario aceita-zero" data-val="true" data-val-number="O campo Valor do serviço/fornecimento em moeda estrangeira deve ser um número." id="ComercioExterior_ValorServicoMoedaEstrangeira" name="ComercioExterior.ValorServicoMoedaEstrangeira" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.ValorServicoMoedaEstrangeira" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo prestador do serviço/fornecimento<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ComercioExterior_MecanismoApoioPrestador" name="ComercioExterior.MecanismoApoioPrestador"><option value="">Selecione...</option>
+<option value="1">Nenhum</option>
+<option value="2">ACC - Adiantamento sobre Contrato de Câmbio – Redução a Zero do IR e do IOF</option>
+<option value="3">ACE – Adiantamento sobre Cambiais Entregues - Redução a Zero do IR e do IOF</option>
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.MecanismoApoioPrestador" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Mecanismo de apoio/fomento ao Comércio Exterior utilizado pelo tomador do serviço/fornecimento<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ComercioExterior_MecanismoApoioTomador" name="ComercioExterior.MecanismoApoioTomador"><option value="">Selecione...</option>
+<option value="1">Nenhum</option>
+<option value="2">Adm.Pública e Repr.Internacional</option>
+<option value="3">Alugueis e Arrend.Mercantil de maquinas, equip., embarc.e aeronaves</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.MecanismoApoioTomador" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Existe vínculo da operação à movimentação temporária de bens?<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="ComercioExterior_MovimentacaoTempBens" name="ComercioExterior.MovimentacaoTempBens"><option value="">Selecione...</option>
+<option value="1">Não</option>
+<option value="2">Vinculada - Declaração de Importação</option>
+<option value="3">Vinculada - Declaração de Exportação</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.MovimentacaoTempBens" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlNumeroRE" style="display:none;">
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>RE averbado<span class="asterisco">*</span></span><a class="" data-content="Número do Registro de Exportação (RE) averbado." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control" data-val="true" data-val-length="The field RE averbado must be a string with a maximum length of 12." data-val-length-max="12" id="ComercioExterior_NumeroRE" maxlength="12" name="ComercioExterior.NumeroRE" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.NumeroRE" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlNumeroDI" style="display:none;">
+<div class="col-md-6">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>DI/DSI/DA/DRI-E averbado<span class="asterisco">*</span></span><a class="" data-content="Número da Declaração de Importação (DI/DSI/DA/DRI-E) averbado." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control" data-val="true" data-val-length="The field DI/DSI/DA/DRI-E averbado must be a string with a maximum length of 12." data-val-length-max="12" id="ComercioExterior_NumeroDI" maxlength="12" name="ComercioExterior.NumeroDI" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.NumeroDI" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Deseja compartilhar a NFS-e que será gerada a partir desta DPS com o MDIC?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton"><label><input id="ComercioExterior_CompartilharComMDIC" name="ComercioExterior.CompartilharComMDIC" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input id="ComercioExterior_CompartilharComMDIC" name="ComercioExterior.CompartilharComMDIC" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="ComercioExterior.CompartilharComMDIC" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlComprasGovernamentais" style="display:none;">
+<h2>Tipo de Operação</h2>
+<div class="retratil">
+<div class="bd-callout bd-callout-info" style="margin: 0;">
+                Esse campo é exigido para os casos de compras governamentais ou algum dos serviços do art. 254 da LC 214/2025 (25.05, 15.09, 17.12 e 10.05).
+            </div>
+<br/>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Selecione o tipo de operação</span></label>
+<select class="form-control form-chosen" id="ServicoPrestado_CodigoTpOper" name="ServicoPrestado.CodigoTpOper"><option value=""></option>
+<option selected="selected" value="0">-</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.CodigoTpOper" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlComprasGovernamentaisDetalhes" style="display:none;">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Chave da NFS-e com fornecimento ou recebimento do pagamento realizado</span></label>
+<input class="form-control chaveNFSe" id="ServicoPrestado_ChaveAcessoFornPagRealizado" name="ServicoPrestado.ChaveAcessoFornPagRealizado" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="ServicoPrestado.ChaveAcessoFornPagRealizado" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse" id="pnlComplemento">
+<h2>Informações Complementares</h2>
+<div class="retratil">
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número do documento de responsabilidade técnica</span></label>
+<input class="form-control" data-val="true" data-val-length="The field Número do documento de responsabilidade técnica must be a string with a maximum length of 40." data-val-length-max="40" id="Complemento_NumeroRespTecnica" maxlength="40" name="Complemento.NumeroRespTecnica" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Complemento.NumeroRespTecnica" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Documento de referência</span></label>
+<div class="multilinhas"><textarea class="form-control" cols="20" data-val="true" data-val-length="The field Documento de referência must be a string with a maximum length of 255." data-val-length-max="255" id="Complemento_DocumentoReferencia" maxlength="255" name="Complemento.DocumentoReferencia" rows="2">
+</textarea></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Complemento.DocumentoReferencia" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Informações complementares</span></label>
+<div class="multilinhas"><textarea class="form-control" cols="20" data-val="true" data-val-length="The field Informações complementares must be a string with a maximum length of 2000." data-val-length-max="2000" data-val-regex="Caracteres não permitidos (verifique caracteres especiais e/ou quebras de linha)." data-val-regex-pattern="[!-ÿ]{1}[ -ÿ]{0,}[!-ÿ]{1}|[!-ÿ]{1}" id="Complemento_InformacoesComplementares" maxlength="2000" name="Complemento.InformacoesComplementares" rows="8">
+</textarea><p class="contador">Total de caracteres: <span></span> / 2000</p></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Complemento.InformacoesComplementares" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número do Pedido, Ordem de Compra, Ordem de Serviço ou Projeto que autorize a prestação do serviço/fornecimento em operações B2B</span></label>
+<input class="form-control" data-val="true" data-val-length="The field Número do Pedido, Ordem de Compra, Ordem de Serviço ou Projeto que autorize a prestação do serviço/fornecimento em operações B2B must be a string with a maximum length of 60." data-val-length-max="60" id="Complemento_Pedido_NumeroPedido" maxlength="60" name="Complemento.Pedido.NumeroPedido" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Complemento.Pedido.NumeroPedido" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div id="pnlItensPedido" style="display:none;">
+<input id="hdfIdr" type="hidden" value="DRAFT0001"/>
+<button class="btn btn-lg btn-info" id="btnIncluirItemPedido" type="button">
+<img src="/EmissorNacional/img/btn-novo.svg"/><span>Incluir Item</span>
+</button>
+<div class="lista" style="padding-top:10px;">
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Complemento.Pedido.ListaItemPedido" data-valmsg-replace="true"></span>
+</div>
+</div>
+<br/>
+</div>
+<div class="comandos">
+<a class="btn btn-lg btn-info float-left" href="/EmissorNacional/DPS/Pessoas?idr=DRAFT0001" id="btnVoltar">
+<img src="/EmissorNacional/img/btn-voltar.svg"/><span>Voltar</span>
+</a>
+<button class="btn btn-lg btn-primary direita has-spin" type="submit">
+<span>Avançar</span><img src="/EmissorNacional/img/btn-avancar.svg"/>
+</button>
+</div>
+</form></body></html>

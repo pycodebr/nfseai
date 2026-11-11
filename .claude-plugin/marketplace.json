@@ -1,0 +1,25 @@
+{
+  "name": "nfseai",
+  "description": "NFS-e pelo Emissor Nacional para agentes de IA: skill, linha de comando e biblioteca Python.",
+  "owner": {
+    "name": "PycodeBR",
+    "url": "https://github.com/pycodebr"
+  },
+  "plugins": [
+    {
+      "name": "nfseai",
+      "source": "./",
+      "description": "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emite, cancela e gera o PDF de notas fiscais de serviço, com ensaio antes de emitir e controle contra nota em dobro.",
+      "homepage": "https://github.com/pycodebr/nfseai",
+      "keywords": [
+        "nfse",
+        "nfs-e",
+        "nota-fiscal",
+        "emissor-nacional",
+        "brasil",
+        "fiscal",
+        "agent-skills"
+      ]
+    }
+  ]
+}

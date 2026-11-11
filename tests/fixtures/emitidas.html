@@ -1,0 +1,234 @@
+<html><body><div class="container container-fluid-xl container-body" id="main-content">
+<div class="alert-danger alert" id="erroAssinatura" style="display:none"><span class="icone"></span><a class="close" href="javascript:void(0);"></a></div>
+<h2>Notas emitidas</h2>
+<div class="bd-callout bd-callout-info">
+    Ao entrar na tela de Notas emitidas são exibidas as notas fiscais emitidas nos últimos 30 dias. Para exibir as notas referentes a um outro período informe os campos data inicial e data final. Em seguida clique no botão filtrar.
+    O período informado não deve ser superior a 30 dias.
+</div>
+<div class="navbar navbar-nfse" id="pnlComandos">
+<div class="navbar-collapse" id="searchbar">
+<ul class="nav navbar-nav">
+<li>
+<a class="btn btn-lg btn-primary" href="/EmissorNacional/DPS/Pessoas" id="btnNovaNFSe">
+<img src="/EmissorNacional/img/btn-novo.svg"/><span>Nova NFS-e</span>
+</a>
+</li>
+<li>
+<a class="btn btn-lg btn-info" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas" id="btnRecarregar" title="Recarregar">
+<img src="/EmissorNacional/img/btn-recarregar.svg" style="height: 21px;"/><span>Recarregar lista</span>
+</a>
+</li>
+</ul>
+<form action="/EmissorNacional/Notas/Emitidas" class="navbar-form" method="get"> <div class="form-group" style="display:inline;">
+<div class="input-group input-group-lg" style="display:table;">
+<input class="form-control" name="busca" placeholder="Pesquisar pessoa física ou jurídica" type="text"/>
+<span class="input-group-btn" style="width:1%;">
+<button class="btn btn-default" id="btnPesquisar" type="submit"><img alt="Pesquisar" src="/EmissorNacional/img/btn-pesquisar-esq.svg"/></button>
+</span>
+</div>
+</div>
+<br/>
+<div style="display: flex; align-items: center; justify-content: flex-start;">
+<div class="form-group form-group-lg" style="margin-right: 20px;">
+<label class="control-label"><span>Data Inicial</span></label>
+<div class="input-group input-group-lg"><input class="form-control data" id="datainicio" name="datainicio" type="text" value="10/10/2026"/><span class="input-group-btn"><button class="btn btn-lg btn-default btnCalendario" data-original-title="Abrir calendário" data-toggle="tooltip" id="btn_datainicio" type="button"><div class="btn-calendario"></div></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="datainicio" data-valmsg-replace="true"></span>
+</div>
+<div class="form-group" style="display: flex; align-items: center; justify-content: flex-start; gap: 10px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Data Final</span></label>
+<div class="input-group input-group-lg"><input class="form-control data" id="datafim" name="datafim" type="text" value="09/11/2026"/><span class="input-group-btn"><button class="btn btn-lg btn-default btnCalendario" data-original-title="Abrir calendário" data-toggle="tooltip" id="btn_datafim" type="button"><div class="btn-calendario"></div></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="datafim" data-valmsg-replace="true"></span>
+</div>
+<div class="form-group form-group-lg">
+<button class="btn btn-lg btn-primary" type="submit">
+<img src="/EmissorNacional/img/btn-filtrar.svg"/> Filtrar
+                        </button>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div>
+<table class="table table-striped">
+<thead>
+<tr>
+<th class="td-data">
+<a href="/EmissorNacional/Notas/Emitidas?col=data_desc">Geração<span class="fa fa-angle-down sortIcon"></span></a>
+</th>
+<th>
+                    
+                    Emitida para
+                </th>
+<th class="td-competencia" style="width: 200px;text-align:center;">
+                    Competência
+                    <!--Html.LinkOrdenacao("Competência", "competencia", (string)ViewBag.CampoOrdenacaoPadrao)
+                        Para usar LinkOrdenação será necessário alterar procedure P_ListarNotasPorEmitente
+                        e gerar nova versão do Serpro.Sped.NFSe.AD ( TipoOrdenacaoEmitidas.cs )
+                    -->
+</th>
+<th class="td-center" style="width: 200px;">
+                    Município Emissor
+                </th>
+<th class="td-valor" style="width: 160px;">
+<a href="/EmissorNacional/Notas/Emitidas?col=valor_asc">Preço Serviço (R$)<span></span></a>
+</th>
+<th class="td-situacao">
+<a href="/EmissorNacional/Notas/Emitidas?col=situacao_asc">Situação<span></span></a>
+</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr data-chave="ROWKEY0002" data-situacao="P100_GERADA" data-valor="1047,51">
+<td class="td-data">
+                        31/10/2026
+                        
+                    </td>
+<td class="td-texto-grande">
+<div><img src="/EmissorNacional/img/tb-tomador.svg" title="Tomador"/><span class="cpf">52998224725</span> - TOMADOR EXEMPLO 1</div>
+</td>
+<td class="td-competencia" style="text-align:center;">
+                        10/2026
+                    </td>
+<td class="td-center">
+                        Cidade Exemplo/PR
+                    </td>
+<td class="td-valor">
+                        1.047,51
+                    </td>
+<td class="td-situacao">
+<img alt="NFS-e emitida" data-original-title="NFS-e emitida" data-toggle="tooltip" src="/EmissorNacional/img/tb-gerada.svg" title=""/>
+</td>
+<td class="td-opcoes">
+<div class="menu-suspenso-tabela">
+<a class="icone-trigger" href="javascript:void(0);">
+<i class="glyphicon glyphicon-option-vertical"></i>
+</a>
+<div class="list-group menu-content" style="display: none">
+<a class="list-group-item" href="/EmissorNacional/Notas/Visualizar/Index/41999991211222333000181000000000000126100000000010">
+<img src="/EmissorNacional/img/op-visualizar.svg"/>Visualizar
+                                </a>
+<button class="list-group-item btnSubstituir" data-bypass="false">
+<img src="/EmissorNacional/img/op-substituir.svg"/>Substituir
+                                </button>
+<button class="list-group-item btnCancelar">
+<img src="/EmissorNacional/img/op-cancelar.svg"/>Cancelar NFS-e
+                                </button>
+<a class="list-group-item" href="/EmissorNacional/Notas/Download/NFSe/41999991211222333000181000000000000126100000000010">
+<img src="/EmissorNacional/img/op-xml.svg"/>Download XML
+                                </a>
+<a class="list-group-item" download="" href="/EmissorNacional/Notas/Download/DANFSe/41999991211222333000181000000000000126100000000010">
+<img src="/EmissorNacional/img/op-pdf.svg"/>Download DANFS-e
+                                </a>
+</div>
+</div>
+</td>
+</tr>
+<tr data-chave="ROWKEY0003" data-situacao="P100_GERADA" data-valor="1414,60">
+<td class="td-data">
+                        31/10/2026
+                        
+                    </td>
+<td class="td-texto-grande">
+<div><img src="/EmissorNacional/img/tb-tomador.svg" title="Tomador"/><span class="cpf">11144477735</span> - TOMADOR EXEMPLO 2</div>
+</td>
+<td class="td-competencia" style="text-align:center;">
+                        10/2026
+                    </td>
+<td class="td-center">
+                        Cidade Exemplo/PR
+                    </td>
+<td class="td-valor">
+                        1.414,60
+                    </td>
+<td class="td-situacao">
+<img alt="NFS-e emitida" data-original-title="NFS-e emitida" data-toggle="tooltip" src="/EmissorNacional/img/tb-gerada.svg" title=""/>
+</td>
+<td class="td-opcoes">
+<div class="menu-suspenso-tabela">
+<a class="icone-trigger" href="javascript:void(0);">
+<i class="glyphicon glyphicon-option-vertical"></i>
+</a>
+<div class="list-group menu-content" style="display: none">
+<a class="list-group-item" href="/EmissorNacional/Notas/Visualizar/Index/41999991211222333000181000000000000226100000000020">
+<img src="/EmissorNacional/img/op-visualizar.svg"/>Visualizar
+                                </a>
+<button class="list-group-item btnSubstituir" data-bypass="false">
+<img src="/EmissorNacional/img/op-substituir.svg"/>Substituir
+                                </button>
+<button class="list-group-item btnCancelar">
+<img src="/EmissorNacional/img/op-cancelar.svg"/>Cancelar NFS-e
+                                </button>
+<a class="list-group-item" href="/EmissorNacional/Notas/Download/NFSe/41999991211222333000181000000000000226100000000020">
+<img src="/EmissorNacional/img/op-xml.svg"/>Download XML
+                                </a>
+<a class="list-group-item" download="" href="/EmissorNacional/Notas/Download/DANFSe/41999991211222333000181000000000000226100000000020">
+<img src="/EmissorNacional/img/op-pdf.svg"/>Download DANFS-e
+                                </a>
+</div>
+</div>
+</td>
+</tr>
+<tr data-chave="ROWKEY0004" data-situacao="P100_GERADA" data-valor="947,49">
+<td class="td-data">
+                        31/10/2026
+                        
+                    </td>
+<td class="td-texto-grande">
+<div><img src="/EmissorNacional/img/tb-tomador.svg" title="Tomador"/><span class="cpf">39053344705</span> - TOMADOR EXEMPLO 3</div>
+</td>
+<td class="td-competencia" style="text-align:center;">
+                        10/2026
+                    </td>
+<td class="td-center">
+                        Cidade Exemplo/PR
+                    </td>
+<td class="td-valor">
+                        947,49
+                    </td>
+<td class="td-situacao">
+<img alt="NFS-e emitida" data-original-title="NFS-e emitida" data-toggle="tooltip" src="/EmissorNacional/img/tb-gerada.svg" title=""/>
+</td>
+<td class="td-opcoes">
+<div class="menu-suspenso-tabela">
+<a class="icone-trigger" href="javascript:void(0);">
+<i class="glyphicon glyphicon-option-vertical"></i>
+</a>
+<div class="list-group menu-content" style="display: none">
+<a class="list-group-item" href="/EmissorNacional/Notas/Visualizar/Index/41999991211222333000181000000000000326100000000030">
+<img src="/EmissorNacional/img/op-visualizar.svg"/>Visualizar
+                                </a>
+<button class="list-group-item btnSubstituir" data-bypass="false">
+<img src="/EmissorNacional/img/op-substituir.svg"/>Substituir
+                                </button>
+<button class="list-group-item btnCancelar">
+<img src="/EmissorNacional/img/op-cancelar.svg"/>Cancelar NFS-e
+                                </button>
+<a class="list-group-item" href="/EmissorNacional/Notas/Download/NFSe/41999991211222333000181000000000000326100000000030">
+<img src="/EmissorNacional/img/op-xml.svg"/>Download XML
+                                </a>
+<a class="list-group-item" download="" href="/EmissorNacional/Notas/Download/DANFSe/41999991211222333000181000000000000326100000000030">
+<img src="/EmissorNacional/img/op-pdf.svg"/>Download DANFS-e
+                                </a>
+</div>
+</div>
+</td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+
+
+</tbody>
+</table>
+<div class="row paginacao"><div class="col-sm-12 col-md-6 indice"><ul class="pagination"><li class="disabled"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Primeira"><i class="fa fa-angle-double-left"></i></a></li><li class="disabled"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Anterior"><i class="fa fa-angle-left"></i></a></li><li class="active"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Página 1">1</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=2" title="Página 2">2</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=3" title="Página 3">3</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=4" title="Página 4">4</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=5" title="Página 5">5</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=2" title="Próxima"><i class="fa fa-angle-right"></i></a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=15" title="Última"><i class="fa fa-angle-double-right"></i></a></li></ul></div><div class="col-sm-12 col-md-6 descricao">Total de 216 registros</div></div>
+<div class="modal fade" id="modalCancelamento" role="dialog" tabindex="-1"></div>
+</div><div class="row paginacao"><div class="col-sm-12 col-md-6 indice"><ul class="pagination"><li class="disabled"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Primeira"><i class="fa fa-angle-double-left"></i></a></li><li class="disabled"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Anterior"><i class="fa fa-angle-left"></i></a></li><li class="active"><a data-placement="top" data-toggle="tooltip" href="javascript:" title="Página 1">1</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=2" title="Página 2">2</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=3" title="Página 3">3</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=4" title="Página 4">4</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=5" title="Página 5">5</a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=2" title="Próxima"><i class="fa fa-angle-right"></i></a></li><li><a data-placement="top" data-toggle="tooltip" href="/EmissorNacional/Notas/Emitidas?pg=15" title="Última"><i class="fa fa-angle-double-right"></i></a></li></ul></div><div class="col-sm-12 col-md-6 descricao">Total de 216 registros</div></div><div class="descricao">Total de 216 registros</div></body></html>

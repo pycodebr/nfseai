@@ -1,0 +1,24 @@
+<form action="/EmissorNacional/Notas/Emitidas/CancelarNFSe" method="post"><input name="__RequestVerificationToken" type="hidden" value="ROWKEY0009"/><input data-val="true" data-val-required="The TipoEvento field is required." id="TipoEvento" name="TipoEvento" type="hidden" value="CANCELAMENTO"/><input id="Chave" name="Chave" type="hidden" value="ROWKEY0002"/><input id="ChaveAcesso" name="ChaveAcesso" type="hidden" value="41999991211222333000181000000000000126100000000010"/><input data-val="true" data-val-required="The ExibirDetalhes field is required." id="ExibirDetalhes" name="ExibirDetalhes" type="hidden" value="False"/><input id="DataGeracao" name="DataGeracao" type="hidden" value="31/10/2026"/><input data-val="true" data-val-number="O campo Nº DPS deve ser um número." id="NumeroDPS" name="NumeroDPS" type="hidden" value="267"/><input data-val="true" data-val-number="O campo Série DPS deve ser um número." id="SerieDPS" name="SerieDPS" type="hidden" value="1000"/><input data-val="true" data-val-number="O campo Nº NFS-e deve ser um número." id="NumeroNFSe" name="NumeroNFSe" type="hidden" value="267"/><input data-val="true" data-val-number="O campo Valor do Serviço deve ser um número." id="ValorServico" name="ValorServico" type="hidden" value="1047,51"/><input id="EmitidoPara" name="EmitidoPara" type="hidden" value="52998224725 - TOMADOR EXEMPLO 1"/><input id="ServicoPrestado" name="ServicoPrestado" type="hidden" value="08.02.01.000 - Instrução, treinamento, orientação pedagógica e educacional, avaliação de conhecimentos de qualquer natureza."/> <div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Motivo do cancelamento<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="MotivoCancelamento" name="MotivoCancelamento"><option value="">Selecione...</option>
+<option value="1">Erro na emissão</option>
+<option value="2">Serviço não prestado</option>
+<option value="9">Outros</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="MotivoCancelamento" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Justificativa<span class="asterisco">*</span></span></label>
+<div class="multilinhas"><textarea class="form-control" cols="20" data-val="true" data-val-length="A justificativa deve ter entre 15 e 255 caracteres." data-val-length-max="255" data-val-length-min="15" id="Justificativa" maxlength="255" name="Justificativa" rows="3">
+</textarea></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Justificativa" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</form>

@@ -1,0 +1,37 @@
+{
+  "name": "nfseai",
+  "version": "0.1.0",
+  "description": "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emite, cancela e gera o PDF de notas fiscais de serviço, com ensaio antes de emitir e controle contra nota em dobro.",
+  "author": {
+    "name": "PycodeBR (Felipe Azambuja)",
+    "url": "https://github.com/pycodebr"
+  },
+  "homepage": "https://github.com/pycodebr/nfseai",
+  "repository": "https://github.com/pycodebr/nfseai",
+  "license": "MIT",
+  "keywords": [
+    "nfse",
+    "nfs-e",
+    "nota-fiscal",
+    "emissor-nacional",
+    "brasil",
+    "fiscal",
+    "agent-skills"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "nfseai",
+    "shortDescription": "NFS-e pelo Emissor Nacional: consulta, emissão, cancelamento e PDF",
+    "longDescription": "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emite, cancela e gera o PDF de notas fiscais de serviço, com ensaio antes de emitir e controle contra nota em dobro. O usuário conecta a própria conta do portal com `nfseai conectar`, no terminal dele; a senha não passa pelo chat. Emissão e cancelamento só acontecem com --confirm.",
+    "developerName": "PycodeBR",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/pycodebr/nfseai",
+    "defaultPrompt": [
+      "Emita uma NFS-e de R$ 500,00 para o CNPJ do meu cliente e me mostre o resumo antes de confirmar"
+    ]
+  }
+}

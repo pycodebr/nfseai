@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nfseai"
+version = "0.1.0"
+description = "NFS-e pelo Emissor Nacional (www.nfse.gov.br) para agentes de IA: consulta, emissão, cancelamento e PDF, com CLI, biblioteca Python e skill."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "PycodeBR (Felipe Azambuja)" }]
+requires-python = ">=3.10"
+keywords = ["nfse", "nfs-e", "nota fiscal", "emissor nacional", "agent skills", "ai agents"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Portuguese (Brazilian)",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Topic :: Office/Business :: Financial :: Accounting",
+]
+dependencies = [
+    "httpx>=0.27",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+pdf = ["playwright>=1.45"]
+dev = ["pytest>=8.0", "ruff>=0.6", "pyyaml>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/pycodebr/nfseai"
+Issues = "https://github.com/pycodebr/nfseai/issues"
+
+[project.scripts]
+nfseai = "nfseai.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nfseai"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM"]
+ignore = ["N818"]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"tools/*" = ["E501"]

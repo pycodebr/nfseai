@@ -1,0 +1,1655 @@
+<html><body><form action="/EmissorNacional/DPS/Pessoas" class="formdps" method="post"> <input id="NotaDoMei" name="NotaDoMei" type="hidden" value="False"/>
+<input id="Prestador_LocalDomicilio" name="Prestador.LocalDomicilio" type="hidden" value="0"/>
+<div class="pnlCollapse">
+<h2>Informações Gerais</h2>
+<div id="pnlInfoIBSCBS" style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Preencher as informações IBS/CBS?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input class="PreencherInfoIBSCBS" id="PreencherInfoIBSCBS" name="PreencherInfoIBSCBS" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input class="PreencherInfoIBSCBS" id="PreencherInfoIBSCBS" name="PreencherInfoIBSCBS" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="PreencherInfoIBSCBS" data-valmsg-replace="true"></span>
+</div>
+<div class="retratil" style="padding-left: 0;display:none;">
+<div class="bd-callout bd-callout-info" style="margin: 0;">
+                    Para emissões com IBS/CBS destacado, a data de competência deve ser igual ou maior a 01/01/2026.
+                </div>
+</div>
+</div>
+<div class="retratil" style="padding-top: 20px; padding-bottom: 0;">
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Data de Competência<span class="asterisco">*</span></span><a class="" data-content="Refere-se à data em que o serviço foi prestado. Para maiores informações, consulte a legislação do município onde incidirá o ISSQN." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="input-group input-group-lg"><input class="form-control data" data-date-end-date="09-11-2026" data-val="true" data-val-date="O campo Data de Competência deve ser uma data." id="DataCompetencia" name="DataCompetencia" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btnCalendario" data-original-title="Abrir calendário" data-toggle="tooltip" id="btn_DataCompetencia" type="button"><div class="btn-calendario"></div></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="DataCompetencia" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Informar série e número da DPS field is required." disabled="disabled" id="InformarSerieNumeroDPS" name="InformarSerieNumeroDPS" type="checkbox" value="true"/><input name="InformarSerieNumeroDPS" type="hidden" value="false"/> <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                                Informar série e número da DPS
+                            </span>
+</label>
+</div>
+</div>
+</div>
+<div id="pnlTrascricaoDPS" style="display:none;">
+<div class="bd-callout bd-callout-info">
+                    O número e a série da DPS são campos obrigatórios de controle da DPS que ajudam a identificar unicamente uma DPS.
+                    Em geral, campos são gerados automaticamente pelo sistema para cada emitente de NFS-e.
+                    No entanto, existem situções em que o emitente ainda necessita controlá-los ou deverá informá-los manualmente.
+                    O sistema emissor permite que o emitente possa informar o número de série (transcrever o número de série) que foi repassado ao não emitente da NFS-e.
+                </div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Série<span class="asterisco">*</span></span><a class="" data-content="A série transcrita manualmente para a DPS deve ser um número dentro da faixa definida para este fim, que é de 80000 até 89999." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input class="form-control numerico" data-val="true" data-val-length="The field Série must be a string with a maximum length of 5." data-val-length-max="5" id="SerieDPS" maxlength="5" name="SerieDPS" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="SerieDPS" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número da DPS<span class="asterisco">*</span></span></label>
+<input class="form-control num15pos" data-val="true" data-val-length="The field Número da DPS must be a string with a maximum length of 15." data-val-length-max="15" id="NumeroDPS" maxlength="15" name="NumeroDPS" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="NumeroDPS" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse semi-aberto emitente">
+<h2>Emitente da NFS-e</h2>
+<div style="padding: 0 20px;">
+<div class="row" style="margin-top: 5px;margin-bottom: 0;">
+<div class="col-md-9">
+<div class="form-group">
+<label class="control-label"><span>Você irá emitir esta NFS-e como?<span class="asterisco">*</span></span><a class="" data-content="A NFS-e poderá ser emitida por um Prestador, Tomador ou Intermediário. No entanto, as emissões de NFS-e por Tomador e Intermediário não estão disponíveis. Não há previsão para disponibilização destas emissões no Sistema Nacional NFS-e." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton"><label><input checked="checked" disabled="true" id="TipoEmitente" name="TipoEmitente" type="radio" value="1"/>Prestador/Fornecedor<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input disabled="true" id="TipoEmitente" name="TipoEmitente" type="radio" value="2"/>Tomador/Adquirente<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton"><label><input disabled="true" id="TipoEmitente" name="TipoEmitente" type="radio" value="3"/>Intermediário<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<input id="Prestador_EnderecoNacional_NomeMunicipio" name="Prestador.EnderecoNacional.NomeMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" data-val="true" data-val-number="O campo Município deve ser um número." id="Prestador_EnderecoNacional_CodigoMunicipio" name="Prestador.EnderecoNacional.CodigoMunicipio" readonly="readonly"><option value=""></option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.CodigoMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label" id="lblIMPrestador"><span>Indicador Municipal<span class="asterisco" style="display: none;">*</span></span></label>
+<select class="form-control form-chosen" data-val="true" data-val-length="The field Indicador Municipal must be a string with a maximum length of 15." data-val-length-max="15" id="Prestador_InscricaoMunicipal" name="Prestador.InscricaoMunicipal" readonly="readonly"><option value=""></option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.InscricaoMunicipal" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label">CNPJ</label>
+<input class="form-control cpfcnpj-alfanumerico" data-val="true" data-val-length="The field CPF/CNPJ must be a string with a maximum length of 18." data-val-length-max="18" id="Prestador_Inscricao" maxlength="18" name="Prestador.Inscricao" readonly="readonly" type="text" value=""/>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label">Razão Social</label>
+<input class="form-control" data-val="true" data-val-length="The field Nome/Razão Social must be a string with a maximum length of 150." data-val-length-max="150" id="Prestador_Nome" maxlength="150" name="Prestador.Nome" readonly="readonly" type="text" value=""/>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Opção no Simples Nacional<span class="asterisco">*</span></span><a class="" data-content="ME ou EPP optante pelos Simples Nacional de acordo com LC 123/2006" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<input id="SimplesNacional_Opcao" name="SimplesNacional.Opcao" type="hidden" value="NENHUM"/>
+<input class="form-control" disabled="disabled" id="txtOpcaoSN" type="text" value="NENHUM"/>
+<span class="field-validation-valid text-danger" data-valmsg-for="SimplesNacional.Opcao" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlRegimeApuracaoTributosSN" style="display:none;">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Regime de Apuração dos Tributos no Simples Nacional<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="SimplesNacional_RegimeApuracaoTributosSN" name="SimplesNacional.RegimeApuracaoTributosSN"><option value="">Selecione...</option>
+<option value="1">Regime de apuração dos tributos federais e municipal pelo Simples Nacional</option>
+<option value="2">Regime de apuração dos tributos federais pelo Simples Nacional e o ISSQN pela NFS-e conforme respectiva legislação municipal do tributo</option>
+<option value="3">Regime de apuração dos tributos federais e municipal pela NFS-e conforme respectivas legislações federal e municipal de cada tributo</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="SimplesNacional.RegimeApuracaoTributosSN" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+<div style="padding: 0 20px 15px; margin-top: 20px;">
+<button ativo="Ocultar detalhes do emitente" class="btn btn-lg btn-info" disabled="disabled" id="btnMaisInfoEmitente" inativo="Exibir detalhes do emitente">
+                    Exibir detalhes do emitente
+                </button>
+</div>
+<div id="pnlMaisInfo" style="display:none;padding: 0 20px;">
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label">Telefone</label>
+<input class="form-control" data-val="true" data-val-length="The field Telefone must be a string with a maximum length of 14." data-val-length-max="14" id="Prestador_Telefone" maxlength="14" name="Prestador.Telefone" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.Telefone" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label">E-mail</label>
+<input class="form-control" data-val="true" data-val-length="The field E-mail must be a string with a maximum length of 80." data-val-length-max="80" id="Prestador_Email" maxlength="80" name="Prestador.Email" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.Email" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="enderecoBrasil" id="pnlEmitenteEnderecoBrasil">
+<input data-val="true" data-val-required="The IndicadorEnderecoAlterado field is required." id="Prestador_EnderecoNacional_IndicadorEnderecoAlterado" name="Prestador.EnderecoNacional.IndicadorEnderecoAlterado" type="hidden" value="False"/>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label">CEP</label>
+<div class="input-group input-group-lg"><input autocomplete="off" class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Prestador_EnderecoNacional_CEP" maxlength="10" name="Prestador.EnderecoNacional.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Prestador_EnderecoNacional_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label">Logradouro</label>
+<input class="form-control" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Prestador_EnderecoNacional_Logradouro" maxlength="255" name="Prestador.EnderecoNacional.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-2">
+<div class="form-group form-group-lg">
+<label class="control-label">Número</label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Prestador_EnderecoNacional_Numero" maxlength="60" name="Prestador.EnderecoNacional.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label">Complemento</label>
+<input class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Prestador_EnderecoNacional_Complemento" maxlength="156" name="Prestador.EnderecoNacional.Complemento" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.Complemento" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-7">
+<div class="form-group form-group-lg">
+<label class="control-label">Bairro</label>
+<input class="form-control" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Prestador_EnderecoNacional_Bairro" maxlength="60" name="Prestador.EnderecoNacional.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Prestador.EnderecoNacional.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse semi-aberto" id="pnlComprasGov">
+<h2>Compras Governamentais</h2>
+<div style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>A operação se trata de uma compra governamental?<span class="asterisco">*</span></span><a class="" data-content="Para emissões com IBS/CBS destacado as informações referentes à compras governamentais devem ser preenchidas. O endereço do Tomador/Adquirente será configurado para Brasil obrigatoriamente." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input class="EhCompraGovernamental" disabled="true" id="EhCompraGovernamental" name="EhCompraGovernamental" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input class="EhCompraGovernamental" disabled="true" id="EhCompraGovernamental" name="EhCompraGovernamental" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="EhCompraGovernamental" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="retratil" style="padding-top: 0;display:none;">
+<div class="row" id="pnlTipoCompraGov">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Tipo de ente governamental<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="TipoEnteGov" name="TipoEnteGov"><option value="">Selecione...</option>
+<option value="1">União</option>
+<option value="2">Estado</option>
+<option value="3">Distrito Federal</option>
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="TipoEnteGov" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse semi-aberto" data-tipopessoa="Tomador" id="pnlTomador" style="">
+<h2>Tomador/Adquirente do Serviço</h2>
+<div style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Onde está localizado o estabelecimento/domicílio?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input checked="checked" class="Tomador_LocalDomicilio" data-val="true" data-val-number="O campo Onde está localizado o estabelecimento/domicílio? deve ser um número." disabled="true" id="Tomador_LocalDomicilio" name="Tomador.LocalDomicilio" type="radio" value="1"/>Brasil<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input class="Tomador_LocalDomicilio" disabled="true" id="Tomador_LocalDomicilio" name="Tomador.LocalDomicilio" type="radio" value="2"/>Exterior<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input class="Tomador_LocalDomicilio" disabled="true" id="Tomador_LocalDomicilio" name="Tomador.LocalDomicilio" type="radio" value="0"/>Tomador/Adquirente não informado<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+</div>
+</div>
+<div class="retratil" style="padding-top: 0;">
+<div class="row" id="pnlInscricaoBrasil" style="">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CPF/CNPJ<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cpfcnpj-alfanumerico" data-val="true" data-val-length="The field CPF/CNPJ must be a string with a maximum length of 18." data-val-length-max="18" id="Tomador_Inscricao" maxlength="18" name="Tomador.Inscricao" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" data-original-title="Pesquisar CPF/CNPJ" data-toggle="tooltip" id="btn_Tomador_Inscricao_pesquisar" type="button"><i class="fa fa-search"></i></button><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Tomadores" data-toggle="tooltip" id="btn_Tomador_Inscricao_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.Inscricao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Indicador Municipal</span></label>
+<input class="form-control num15pos" data-val="true" data-val-length="The field Indicador Municipal must be a string with a maximum length of 15." data-val-length-max="15" id="Tomador_InscricaoMunicipal" maxlength="15" name="Tomador.InscricaoMunicipal" type="text" value=""/>
+</div>
+</div>
+</div>
+<div id="pnlInscricaoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>O NIF será informado?<span class="asterisco">*</span></span><a class="" data-content="NIF - Número de Indentificação Fiscal - É o número fornecido pelo órgão de administração tributária do exterior e que identifica a  pessoa física ou jurídica externa ao Brasil (equivale ao CPF ou CNPJ, identificando a pessoa física ou jurídica no exterior)." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input id="Tomador_NIFInformado" name="Tomador.NIFInformado" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input id="Tomador_NIFInformado" name="Tomador.NIFInformado" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.NIFInformado" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlTomadorNumeroNIF" style="display:none;">
+<label class="control-label"><span>NIF<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control" data-val="true" data-val-length="The field NIF must be a string with a maximum length of 40." data-val-length-max="40" id="Tomador_NIF" maxlength="40" name="Tomador.NIF" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Tomadores" data-toggle="tooltip" id="btn_Tomador_NIF_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.NIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlTomadorMotivoNaoInformacaoNIF" style="display:none;">
+<label class="control-label"><span>Motivo da não informação do NIF<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Tomador_MotivoNaoInformacaoNIF" name="Tomador.MotivoNaoInformacaoNIF"><option value="">Selecione...</option>
+<option value="1">Dispensado do NIF</option>
+<option value="2">Não exigência do NIF</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.MotivoNaoInformacaoNIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Nome/Razão Social<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Nome/Razão Social must be a string with a maximum length of 150." data-val-length-max="150" id="Tomador_Nome" maxlength="150" name="Tomador.Nome" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.Nome" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Telefone</span></label>
+<input class="form-control telefone" data-val="true" data-val-length="The field Telefone must be a string with a maximum length of 14." data-val-length-max="14" id="Tomador_Telefone" maxlength="14" name="Tomador.Telefone" type="text" value=""/>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>E-mail</span></label>
+<input class="form-control" data-val="true" data-val-length="The field E-mail must be a string with a maximum length of 80." data-val-length-max="80" id="Tomador_Email" maxlength="80" name="Tomador.Email" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.Email" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlTomadorInformarEnderecoCheck" style="">
+<div class="col-md-12">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Informar endereço field is required." id="Tomador_InformarEndereco" name="Tomador.InformarEndereco" type="checkbox" value="true"/><input name="Tomador.InformarEndereco" type="hidden" value="false"/>
+<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                                Informar endereço
+                            </span>
+</label>
+</div>
+</div>
+</div>
+<div id="pnlTomadorEndereco" style="display:none;">
+<div class="enderecoBrasil" id="pnlTomadorEnderecoBrasil" style="">
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CEP<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input autocomplete="off" class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Tomador_EnderecoNacional_CEP" maxlength="10" name="Tomador.EnderecoNacional.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Tomador_EnderecoNacional_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoNacional.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-number="O campo Município deve ser um número." id="Tomador_EnderecoNacional_CodigoMunicipio" name="Tomador.EnderecoNacional.CodigoMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município</span></label>
+<input class="form-control" id="Tomador_EnderecoNacional_NomeMunicipio" name="Tomador.EnderecoNacional.NomeMunicipio" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoNacional.NomeMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control bairro" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Tomador_EnderecoNacional_Bairro" maxlength="60" name="Tomador.EnderecoNacional.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoNacional.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-7">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control logradouro" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoNacional_Logradouro" maxlength="255" name="Tomador.EnderecoNacional.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoNacional.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Tomador_EnderecoNacional_Numero" maxlength="60" name="Tomador.EnderecoNacional.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoNacional.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Tomador_EnderecoNacional_Complemento" maxlength="156" name="Tomador.EnderecoNacional.Complemento" type="text" value=""/>
+</div>
+</div>
+</div>
+</div>
+<div id="pnlTomadorEnderecoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoExterior_Logradouro" maxlength="255" name="Tomador.EnderecoExterior.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoExterior_Numero" maxlength="255" name="Tomador.EnderecoExterior.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoExterior_Complemento" maxlength="255" name="Tomador.EnderecoExterior.Complemento" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.Complemento" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoExterior_Bairro" maxlength="255" name="Tomador.EnderecoExterior.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Cidade<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Cidade must be a string with a maximum length of 255." data-val-length-max="255" id="Tomador_EnderecoExterior_Cidade" maxlength="255" name="Tomador.EnderecoExterior.Cidade" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.Cidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Endereçamento Postal<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Código de Endereçamento Postal must be a string with a maximum length of 11." data-val-length-max="11" id="Tomador_EnderecoExterior_CodigoEnderecamentoPostal" maxlength="11" name="Tomador.EnderecoExterior.CodigoEnderecamentoPostal" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.CodigoEnderecamentoPostal" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Estado, província ou região<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" id="Tomador_EnderecoExterior_EstadoProvinciaRegiao" name="Tomador.EnderecoExterior.EstadoProvinciaRegiao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.EstadoProvinciaRegiao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<input id="Tomador_EnderecoExterior_NomePais" name="Tomador.EnderecoExterior.NomePais" type="hidden" value=""/>
+<label class="control-label"><span>País<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Tomador_EnderecoExterior_CodigoPais" name="Tomador.EnderecoExterior.CodigoPais"><option value="">Selecione...</option>
+<option value="AF">Afeganistão																</option>
+<option value="ZA">África do Sul																</option>
+<option value="AX">Aland, Ilhas																</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Tomador.EnderecoExterior.CodigoPais" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse semi-aberto" data-tipopessoa="Destinatario" id="pnlDestinatario">
+<h2>Destinatário do Serviço</h2>
+<div style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Para fins de apuração do IBS/CBS, o destinatário é o próprio adquirente?<span class="asterisco">*</span></span><a class="" data-content="Para emissões com IBS/CBS destacado, deve-se informar se o destinatário é o próprio Tomador/Adquirente ou terceiro a ser identificado.&lt;br/&gt;&lt;br/&gt;Considera-se &lt;strong&gt;Tomador/Adquirente&lt;/strong&gt; aquele obrigado ao pagamento ou a qualquer outra forma de contraprestação pelo serviço e &lt;strong&gt;Destinatário&lt;/strong&gt; aquele a quem for fornecido o bem ou serviço." data-html="true" data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input class="DestinatarioEhOAdquirente" disabled="true" id="DestinatarioEhOAdquirente" name="DestinatarioEhOAdquirente" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input class="DestinatarioEhOAdquirente" disabled="true" id="DestinatarioEhOAdquirente" name="DestinatarioEhOAdquirente" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="DestinatarioEhOAdquirente" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div id="pnlInfoDestinatario" style="display:none;">
+<div style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Onde está localizado o estabelecimento/domicílio?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input data-val="true" data-val-number="O campo Onde está localizado o estabelecimento/domicílio? deve ser um número." disabled="true" id="Destinatario_LocalDomicilio" name="Destinatario.LocalDomicilio" type="radio" value="1"/>Brasil<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input disabled="true" id="Destinatario_LocalDomicilio" name="Destinatario.LocalDomicilio" type="radio" value="2"/>Exterior<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+</div>
+</div>
+<div class="retratil" style="padding-top: 0;display:none;">
+<div class="row" id="pnlInscricaoBrasil" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CPF/CNPJ<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cpfcnpj-alfanumerico" data-val="true" data-val-length="The field CPF/CNPJ must be a string with a maximum length of 18." data-val-length-max="18" id="Destinatario_Inscricao" maxlength="18" name="Destinatario.Inscricao" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" data-original-title="Pesquisar CPF/CNPJ" data-toggle="tooltip" id="btn_Destinatario_Inscricao_pesquisar" type="button"><i class="fa fa-search"></i></button><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Destinatários" data-toggle="tooltip" id="btn_Destinatario_Inscricao_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.Inscricao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Indicador Municipal</span></label>
+<input class="form-control num15pos" data-val="true" data-val-length="The field Indicador Municipal must be a string with a maximum length of 15." data-val-length-max="15" id="Destinatario_InscricaoMunicipal" maxlength="15" name="Destinatario.InscricaoMunicipal" type="text" value=""/>
+</div>
+</div>
+</div>
+<div id="pnlInscricaoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>O NIF será informado?<span class="asterisco">*</span></span><a class="" data-content="NIF - Número de Indentificação Fiscal - É o número fornecido pelo órgão de administração tributária do exterior e que identifica a  pessoa física ou jurídica externa ao Brasil (equivale ao CPF ou CNPJ, identificando a pessoa física ou jurídica no exterior)." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input id="Destinatario_NIFInformado" name="Destinatario.NIFInformado" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input id="Destinatario_NIFInformado" name="Destinatario.NIFInformado" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.NIFInformado" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlDestinatarioNumeroNIF" style="display:none;">
+<label class="control-label"><span>NIF<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control" data-val="true" data-val-length="The field NIF must be a string with a maximum length of 40." data-val-length-max="40" id="Destinatario_NIF" maxlength="40" name="Destinatario.NIF" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Destinatários" data-toggle="tooltip" id="btn_Destinatario_NIF_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.NIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlDestinatarioMotivoNaoInformacaoNIF" style="display:none;">
+<label class="control-label"><span>Motivo da não informação do NIF<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Destinatario_MotivoNaoInformacaoNIF" name="Destinatario.MotivoNaoInformacaoNIF"><option value="">Selecione...</option>
+<option value="1">Dispensado do NIF</option>
+<option value="2">Não exigência do NIF</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.MotivoNaoInformacaoNIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Nome/Razão Social<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Nome/Razão Social must be a string with a maximum length of 150." data-val-length-max="150" id="Destinatario_Nome" maxlength="150" name="Destinatario.Nome" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.Nome" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Telefone</span></label>
+<input class="form-control telefone" data-val="true" data-val-length="The field Telefone must be a string with a maximum length of 14." data-val-length-max="14" id="Destinatario_Telefone" maxlength="14" name="Destinatario.Telefone" type="text" value=""/>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>E-mail</span></label>
+<input class="form-control" data-val="true" data-val-length="The field E-mail must be a string with a maximum length of 80." data-val-length-max="80" id="Destinatario_Email" maxlength="80" name="Destinatario.Email" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.Email" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlDestinatarioInformarEnderecoCheck" style="">
+<div class="col-md-12">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Informar endereço field is required." id="Destinatario_InformarEndereco" name="Destinatario.InformarEndereco" type="checkbox" value="true"/><input name="Destinatario.InformarEndereco" type="hidden" value="false"/>
+<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                                    Informar endereço
+                                </span>
+</label>
+</div>
+</div>
+</div>
+<div id="pnlDestinatarioEndereco" style="display:none;">
+<div class="enderecoBrasil" id="pnlDestinatarioEnderecoBrasil" style="display:none;">
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CEP<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Destinatario_EnderecoNacional_CEP" maxlength="10" name="Destinatario.EnderecoNacional.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Destinatario_EnderecoNacional_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoNacional.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-number="O campo Município deve ser um número." id="Destinatario_EnderecoNacional_CodigoMunicipio" name="Destinatario.EnderecoNacional.CodigoMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município</span></label>
+<input autocomplete="off" class="form-control" id="Destinatario_EnderecoNacional_NomeMunicipio" name="Destinatario.EnderecoNacional.NomeMunicipio" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoNacional.NomeMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control bairro" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Destinatario_EnderecoNacional_Bairro" maxlength="60" name="Destinatario.EnderecoNacional.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoNacional.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-7">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control logradouro" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoNacional_Logradouro" maxlength="255" name="Destinatario.EnderecoNacional.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoNacional.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Destinatario_EnderecoNacional_Numero" maxlength="60" name="Destinatario.EnderecoNacional.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoNacional.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Destinatario_EnderecoNacional_Complemento" maxlength="156" name="Destinatario.EnderecoNacional.Complemento" type="text" value=""/>
+</div>
+</div>
+</div>
+</div>
+<div id="pnlDestinatarioEnderecoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoExterior_Logradouro" maxlength="255" name="Destinatario.EnderecoExterior.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoExterior_Numero" maxlength="255" name="Destinatario.EnderecoExterior.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoExterior_Complemento" maxlength="255" name="Destinatario.EnderecoExterior.Complemento" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.Complemento" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoExterior_Bairro" maxlength="255" name="Destinatario.EnderecoExterior.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Cidade<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Cidade must be a string with a maximum length of 255." data-val-length-max="255" id="Destinatario_EnderecoExterior_Cidade" maxlength="255" name="Destinatario.EnderecoExterior.Cidade" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.Cidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Endereçamento Postal<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Código de Endereçamento Postal must be a string with a maximum length of 11." data-val-length-max="11" id="Destinatario_EnderecoExterior_CodigoEnderecamentoPostal" maxlength="11" name="Destinatario.EnderecoExterior.CodigoEnderecamentoPostal" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.CodigoEnderecamentoPostal" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Estado, província ou região<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" id="Destinatario_EnderecoExterior_EstadoProvinciaRegiao" name="Destinatario.EnderecoExterior.EstadoProvinciaRegiao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.EstadoProvinciaRegiao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<input id="Destinatario_EnderecoExterior_NomePais" name="Destinatario.EnderecoExterior.NomePais" type="hidden" value=""/>
+<label class="control-label"><span>País<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Destinatario_EnderecoExterior_CodigoPais" name="Destinatario.EnderecoExterior.CodigoPais"><option value="">Selecione...</option>
+<option value="AF">Afeganistão																</option>
+<option value="ZA">África do Sul																</option>
+<option value="AX">Aland, Ilhas																</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Destinatario.EnderecoExterior.CodigoPais" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pnlCollapse semi-aberto" data-tipopessoa="Intermediario" id="pnlIntermediario" style="">
+<h2>Intermediário do Serviço</h2>
+<div style="padding: 0 20px;">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Onde está localizado o estabelecimento/domicílio?<span class="asterisco">*</span></span></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input data-val="true" data-val-number="O campo Onde está localizado o estabelecimento/domicílio? deve ser um número." disabled="true" id="Intermediario_LocalDomicilio" name="Intermediario.LocalDomicilio" type="radio" value="1"/>Brasil<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input disabled="true" id="Intermediario_LocalDomicilio" name="Intermediario.LocalDomicilio" type="radio" value="2"/>Exterior<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input checked="checked" disabled="true" id="Intermediario_LocalDomicilio" name="Intermediario.LocalDomicilio" type="radio" value="0"/>Intermediário não informado<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+</div>
+</div>
+<div class="retratil" style="padding-top: 0;display:none;">
+<div class="row" id="pnlInscricaoBrasil" style="display:none;">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CPF/CNPJ<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cpfcnpj-alfanumerico" data-val="true" data-val-length="The field CPF/CNPJ must be a string with a maximum length of 18." data-val-length-max="18" id="Intermediario_Inscricao" maxlength="18" name="Intermediario.Inscricao" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" data-original-title="Pesquisar CPF/CNPJ" data-toggle="tooltip" id="btn_Intermediario_Inscricao_pesquisar" type="button"><i class="fa fa-search"></i></button><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Intermediários" data-toggle="tooltip" id="btn_Intermediario_Inscricao_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.Inscricao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Indicador Municipal</span></label>
+<input class="form-control num15pos" data-val="true" data-val-length="The field Indicador Municipal must be a string with a maximum length of 15." data-val-length-max="15" id="Intermediario_InscricaoMunicipal" maxlength="15" name="Intermediario.InscricaoMunicipal" type="text" value=""/>
+</div>
+</div>
+</div>
+<div id="pnlInscricaoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>O NIF será informado?<span class="asterisco">*</span></span><a class="" data-content="NIF - Número de Indentificação Fiscal - É o número fornecido pelo órgão de administração tributária do exterior e que identifica a  pessoa física ou jurídica externa ao Brasil (equivale ao CPF ou CNPJ, identificando a pessoa física ou jurídica no exterior)." data-placement="top" data-toggle="popover" data-trigger="focus" role="button" tabindex="0"><i class="fa fa-question-circle helpBox"></i></a></label>
+<div class="radio-options">
+<div class="radiobutton inline"><label><input id="Intermediario_NIFInformado" name="Intermediario.NIFInformado" type="radio" value="1"/>Sim<span class="cr"><i class="cr-icon"></i></span></label></div>
+<div class="radiobutton inline"><label><input id="Intermediario_NIFInformado" name="Intermediario.NIFInformado" type="radio" value="0"/>Não<span class="cr"><i class="cr-icon"></i></span></label></div>
+</div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.NIFInformado" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlIntermediarioNumeroNIF" style="display:none;">
+<label class="control-label"><span>NIF<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control" data-val="true" data-val-length="The field NIF must be a string with a maximum length of 40." data-val-length-max="40" id="Intermediario_NIF" maxlength="40" name="Intermediario.NIF" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default btn-group-separado" data-original-title="Últimos Intermediários" data-toggle="tooltip" id="btn_Intermediario_NIF_historico" type="button"><i class="fa fa-users"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.NIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12 col-md-4">
+<div class="form-group form-group-lg" id="pnlIntermediarioMotivoNaoInformacaoNIF" style="display:none;">
+<label class="control-label"><span>Motivo da não informação do NIF<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Intermediario_MotivoNaoInformacaoNIF" name="Intermediario.MotivoNaoInformacaoNIF"><option value="">Selecione...</option>
+<option value="1">Dispensado do NIF</option>
+<option value="2">Não exigência do NIF</option>
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.MotivoNaoInformacaoNIF" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Nome/Razão Social<span class="asterisco">*</span></span></label>
+<input class="form-control" data-val="true" data-val-length="The field Nome/Razão Social must be a string with a maximum length of 150." data-val-length-max="150" id="Intermediario_Nome" maxlength="150" name="Intermediario.Nome" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.Nome" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Telefone</span></label>
+<input class="form-control telefone" data-val="true" data-val-length="The field Telefone must be a string with a maximum length of 14." data-val-length-max="14" id="Intermediario_Telefone" maxlength="14" name="Intermediario.Telefone" type="text" value=""/>
+</div>
+</div>
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>E-mail</span></label>
+<input class="form-control" data-val="true" data-val-length="The field E-mail must be a string with a maximum length of 80." data-val-length-max="80" id="Intermediario_Email" maxlength="80" name="Intermediario.Email" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.Email" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row" id="pnlIntermediarioInformarEnderecoCheck" style="">
+<div class="col-md-12">
+<div class="checkbox">
+<label>
+<input data-val="true" data-val-required="The Informar endereço field is required." id="Intermediario_InformarEndereco" name="Intermediario.InformarEndereco" type="checkbox" value="true"/><input name="Intermediario.InformarEndereco" type="hidden" value="false"/>
+<span class="cr"><i class="cr-icon fa fa-check"></i></span>
+<span class="cr-text">
+                                Informar endereço
+                            </span>
+</label>
+</div>
+</div>
+</div>
+<div id="pnlIntermediarioEndereco" style="display:none;">
+<div class="enderecoBrasil" id="pnlIntermediarioEnderecoBrasil" style="display:none;">
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>CEP<span class="asterisco">*</span></span></label>
+<div class="input-group input-group-lg"><input class="form-control cep" data-val="true" data-val-length="The field CEP must be a string with a maximum length of 10." data-val-length-max="10" id="Intermediario_EnderecoNacional_CEP" maxlength="10" name="Intermediario.EnderecoNacional.CEP" type="text" value=""/><span class="input-group-btn"><button class="btn btn-lg btn-default" id="btn_Intermediario_EnderecoNacional_CEP" type="button"><i class="fa fa-search"></i></button></span></div>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoNacional.CEP" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<input data-val="true" data-val-number="O campo Município deve ser um número." id="Intermediario_EnderecoNacional_CodigoMunicipio" name="Intermediario.EnderecoNacional.CodigoMunicipio" type="hidden" value=""/>
+<label class="control-label"><span>Município</span></label>
+<input autocomplete="off" class="form-control" id="Intermediario_EnderecoNacional_NomeMunicipio" name="Intermediario.EnderecoNacional.NomeMunicipio" readonly="readonly" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoNacional.NomeMunicipio" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-5">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control bairro" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 60." data-val-length-max="60" id="Intermediario_EnderecoNacional_Bairro" maxlength="60" name="Intermediario.EnderecoNacional.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoNacional.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-7">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control logradouro" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoNacional_Logradouro" maxlength="255" name="Intermediario.EnderecoNacional.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoNacional.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-3">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 60." data-val-length-max="60" id="Intermediario_EnderecoNacional_Numero" maxlength="60" name="Intermediario.EnderecoNacional.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoNacional.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-9">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 156." data-val-length-max="156" id="Intermediario_EnderecoNacional_Complemento" maxlength="156" name="Intermediario.EnderecoNacional.Complemento" type="text" value=""/>
+</div>
+</div>
+</div>
+</div>
+<div id="pnlIntermediarioEnderecoExterior" style="display:none;">
+<div class="row">
+<div class="col-md-8">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Logradouro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Logradouro must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoExterior_Logradouro" maxlength="255" name="Intermediario.EnderecoExterior.Logradouro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.Logradouro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Número<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Número must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoExterior_Numero" maxlength="255" name="Intermediario.EnderecoExterior.Numero" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.Numero" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Complemento</span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Complemento must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoExterior_Complemento" maxlength="255" name="Intermediario.EnderecoExterior.Complemento" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.Complemento" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Bairro<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Bairro must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoExterior_Bairro" maxlength="255" name="Intermediario.EnderecoExterior.Bairro" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.Bairro" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Cidade<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Cidade must be a string with a maximum length of 255." data-val-length-max="255" id="Intermediario_EnderecoExterior_Cidade" maxlength="255" name="Intermediario.EnderecoExterior.Cidade" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.Cidade" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Código de Endereçamento Postal<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" data-val="true" data-val-length="The field Código de Endereçamento Postal must be a string with a maximum length of 11." data-val-length-max="11" id="Intermediario_EnderecoExterior_CodigoEnderecamentoPostal" maxlength="11" name="Intermediario.EnderecoExterior.CodigoEnderecamentoPostal" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.CodigoEnderecamentoPostal" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<label class="control-label"><span>Estado, província ou região<span class="asterisco">*</span></span></label>
+<input autocomplete="off" class="form-control" id="Intermediario_EnderecoExterior_EstadoProvinciaRegiao" name="Intermediario.EnderecoExterior.EstadoProvinciaRegiao" type="text" value=""/>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.EstadoProvinciaRegiao" data-valmsg-replace="true"></span>
+</div>
+</div>
+<div class="col-md-4">
+<div class="form-group form-group-lg">
+<input id="Intermediario_EnderecoExterior_NomePais" name="Intermediario.EnderecoExterior.NomePais" type="hidden" value=""/>
+<label class="control-label"><span>País<span class="asterisco">*</span></span></label>
+<select class="form-control form-chosen" id="Intermediario_EnderecoExterior_CodigoPais" name="Intermediario.EnderecoExterior.CodigoPais"><option value="">Selecione...</option>
+<option value="AF">Afeganistão																</option>
+<option value="ZA">África do Sul																</option>
+<option value="AX">Aland, Ilhas																</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</select>
+<span class="field-validation-valid text-danger" data-valmsg-for="Intermediario.EnderecoExterior.CodigoPais" data-valmsg-replace="true"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="comandos">
+<button class="btn btn-lg btn-primary direita has-spin" id="btnAvancar" type="submit">
+<span>Avançar</span><img src="/EmissorNacional/img/btn-avancar.svg"/>
+</button>
+</div>
+</form></body></html>
