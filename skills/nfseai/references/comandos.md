@@ -24,14 +24,26 @@ command name.
 | `nfseai usar <apelido>` | Sets the default company |
 | `nfseai configurar` | Wizard for fiscal defaults (user, in a terminal) |
 | `nfseai configurar --codigo-servico C --nbs N --descricao "..." (--aliquota-sn P \| --sem-valor-tributos) [--info-complementar T] [--municipio-prestacao IBGE --nome-municipio-prestacao "Nome/UF"]` | Saves fiscal defaults without questions; only the options passed change. Exit 4 while something is still missing |
-| `nfseai desconectar --confirm` | Deletes the saved password and session of the company. Alias: `disconnect` |
+| `nfseai conectar --certificado F.pfx [--empresa X] [--municipio IBGE] [--inscricao-municipal IM] [--serie N] [--ambiente producao-restrita\|producao]` | **User only, in a terminal.** Path A: opens the A1 certificate, shows holder and CNPJ, saves after confirmation. See `certificado.md` |
+| `nfseai configurar ... --tributos-federais P --tributos-estaduais P --tributos-municipais P [--aliquota-iss P] [--aliquota-irrf P]` | Path A fiscal defaults (approximate tax percentages; ISSQN rate only when the municipality requires it; IRRF withheld by the customer) |
+| `nfseai configurar [--serie N] [--leiaute 1.01-nt009\|1.01\|padrao]` | Path A only: changes the DPS series (numbering of the new series starts in the local ledger) or forces the DPS layout for the NT 009 switch. Output: `caminho_a` with `serie` and `leiaute` |
+| `nfseai desconectar --confirm` | Deletes the saved password and session of the company (and the certificate copy, on path A). Alias: `disconnect` |
 | `nfseai doctor` | Checks Python, dependencies, permissions of `~/.nfseai`, portal reachability, PDF support |
+| `nfseai instalar-certificado` | Installs certificate support for path A (`cryptography`) into nfseai's environment |
 | `nfseai instalar-pdf` | Installs Playwright and headless Chromium into nfseai's environment (about 300 MB) |
 | `nfseai --version` | Version |
 
 `status` JSON: `empresa`, `conectada`, `origem_credenciais` (`arquivo`, `ambiente` or null), `login`,
 `empresa_padrao`, `empresas`, `perfil_fiscal` (`completo`, `faltando`, and each value), `suporte_pdf`,
-`pasta`, `versao`, `proximo_passo` (what to do next, in Portuguese), and `portal` with `--online`.
+`pasta`, `versao`, `proximo_passo` (what to do next, in Portuguese), and `portal` with `--online`. `caminho`
+is `portal` or `sefin`; on path A the JSON also has `ambiente`, `emitente` and `certificado` (`cnpj`, `titular`,
+`valido_ate`).
+
+Path A only: `nfseai xml <chave> --out F` saves the official NFS-e XML; `nfseai dps <id>` asks the Sefin whether
+a DPS generated an invoice. On path A, `emitir`/`preparar` also accept `--reter-iss` and the customer's address
+(`--tomador-cep`, `--tomador-municipio`, `--tomador-logradouro`, `--tomador-numero`, `--tomador-bairro`,
+`--tomador-complemento`). Portal-only commands (`emitidas`, `recebidas`, `rascunhos`, `whoami`, `servicos`,
+`municipios`, `pdf`, `impressao`) exit with 2 on a path A company.
 
 ## Lookups (read only)
 

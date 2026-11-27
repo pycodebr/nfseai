@@ -2,6 +2,24 @@
 
 Todas as versões publicadas do nfseai. O formato segue o [versionamento semântico](https://semver.org/lang/pt-BR/).
 
+## Não publicado
+
+- **Caminho A: API oficial da Sefin Nacional com certificado digital A1** ([#2](https://github.com/pycodebr/nfseai/issues/2)).
+  Validado na produção restrita (emissão, consulta, XML, consulta pela DPS e cancelamento) e com notas emitidas na
+  produção (`docs/caminho-a.md`). Atende emitentes fora do Simples Nacional,
+  com ou sem ISSQN retido pelo tomador. `nfseai conectar --certificado` grava o certificado da empresa (a senha é
+  digitada no terminal do usuário). O ensaio monta, valida no XSD oficial 1.01 e assina a DPS sem enviar nada; a
+  emissão reserva o número da DPS no registro local e, se a conexão cair, consulta a DPS na Sefin antes de
+  qualquer outra ação. Comandos novos: `xml` (XML oficial da nota) e `dps`. O suporte a certificado é um extra
+  opcional (`nfseai[certificado]`); quem usa só o portal não instala nada novo. IRRF retido pelo tomador
+  (`--aliquota-irrf`); o NBS é opcional nesse caminho.
+- Caminho A: `nfseai configurar --serie N` troca a série da DPS sem reconectar o certificado, e
+  `nfseai configurar --leiaute 1.01-nt009|1.01|padrao` força o leiaute para a virada da NT 009 sem precisar da
+  biblioteca Python. As recusas E0014 (série e número já usados) e E1235 (leiaute diferente do que o ambiente
+  aplica) trazem na mensagem o que fazer, e a exceção ganha `dicas`; a lista `errors` continua com o texto da
+  Sefin. A documentação traz um roteiro de ida para a produção.
+- O caminho B (portal) não mudou. `status` e `empresas` passam a informar o `caminho` de cada empresa.
+
 ## 0.1.1 (2026-11-10)
 
 - `setup.sh` tenta a instalação dos pacotes uma segunda vez, sem cache, quando o download falha (um download

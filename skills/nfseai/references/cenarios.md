@@ -39,7 +39,7 @@ fiscal document. So the client refuses, with `UnsupportedScenario`, before sendi
 | Substitution of an invoice | route read, not implemented; cancel and issue again |
 | Fiscal-analysis cancellation request (event 101103) | route read, not validated |
 | Official DANFSe and XML download | behind hCaptcha on the portal; never bypassed |
-| Login by digital certificate or gov.br | not implemented |
+| Login by digital certificate or gov.br on the portal | not implemented; companies with a certificate can use path A (`references/certificado.md`) |
 | Alphanumeric CNPJ | not accepted by the local validation yet |
 
 When a user's company falls in a refused case, say which one, and that they can still use the queries, the
@@ -60,7 +60,8 @@ in the repository; the procedure is in `docs/remapeamento.md` there.
 ## Other ways to issue NFS-e
 
 - **Official API (Sefin Nacional / ADN)** with an ICP-Brasil digital certificate (mTLS, signed XML). It
-  returns the fiscal XML, has a test environment and native idempotency. It needs an e-CNPJ A1 and an XML
-  signing stack. nfseai does not implement it.
+  returns the fiscal XML, has a test environment and native idempotency. It needs an e-CNPJ A1. nfseai
+  implements it as path A, for issuers outside Simples Nacional, with or without ISSQN withheld by the
+  customer; validated on `producao-restrita` and with invoices issued in production (`references/certificado.md`).
 - **Municipal systems.** Municipalities that have not joined the national issuer keep their own portals.
   nfseai does not talk to them.

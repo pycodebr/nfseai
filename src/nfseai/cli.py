@@ -6,6 +6,9 @@ conversam com a pessoa no terminal.
 
 Códigos de saída: 0 sucesso; 1 erro; 2 uso incorreto; 3 empresa não conectada ao
 portal; 4 padrões fiscais incompletos.
+
+Cada empresa usa um caminho: o portal, com CNPJ e senha (caminho B), ou a API oficial da
+Sefin Nacional, com certificado digital A1 (caminho A, `conectar --certificado`).
 """
 import argparse
 import json
@@ -28,13 +31,18 @@ from .errors import (
     ProfileError,
 )
 from .ledger import Ledger
-from .models import EmissionRequest, Tomador
+from .models import EmissionRequest, Endereco, Tomador
 from .pdf import default_pdf_name, pdf_support_available, render_nota_pdf
-from .profiles import Store, normalize_service_code, validate_fiscal
-from .wizard import Console, WizardAborted, configure, connect
+from .profiles import TRANSPORTE_SEFIN, Store, normalize_service_code, validate_fiscal
+from .wizard import Console, WizardAborted, configure, connect, connect_certificate
 
 MOTIVOS = {'erro': '1', 'nao-prestado': '2', 'outros': '9'}
 EXIT_OK, EXIT_ERROR, EXIT_USAGE, EXIT_NOT_CONNECTED, EXIT_FISCAL_INCOMPLETE = 0, 1, 2, 3, 4
+SO_PORTAL = frozenset({
+    'emitidas', 'recebidas', 'rascunhos', 'rascunho-excluir', 'whoami', 'servicos', 'municipios', 'pdf', 'impressao',
+})
+SO_SEFIN = frozenset({'xml', 'dps'})
+TOMADOR_ENDERECO = ('tomador_cep', 'tomador_municipio', 'tomador_logradouro', 'tomador_numero', 'tomador_bairro')
 CONNECT_HINT = (
     'peça ao usuário para rodar `nfseai conectar` no terminal dele (a senha é digitada lá, nunca no chat) '
     'e avise quando terminar'
@@ -125,6 +133,26 @@ def _add_emission_args(parser):
                         help='código IBGE do município de prestação, se diferente do município da empresa')
     parser.add_argument('--nome-municipio-prestacao', dest='nome_municipio_prestacao',
                         help='nome do município de prestação, como o portal mostra')
+    _add_sefin_fiscal_args(parser)
+    parser.add_argument('--reter-iss', dest='reter_iss', action='store_true',
+                        help='caminho A: ISSQN retido pelo tomador (exige o endereço do tomador)')
+    parser.add_argument('--sem-irrf', dest='sem_irrf', action='store_true',
+                        help='caminho A: emite esta nota sem a retenção de IRRF gravada nos padrões')
+    for campo, ajuda in (
+        ('cep', 'CEP'), ('municipio', 'código IBGE do município'), ('logradouro', 'logradouro'),
+        ('numero', 'número'), ('bairro', 'bairro'), ('complemento', 'complemento (opcional)'),
+    ):
+        parser.add_argument(f'--tomador-{campo}', dest=f'tomador_{campo}', help=f'caminho A: {ajuda} do tomador')
+
+
+def _add_sefin_fiscal_args(parser):
+    parser.add_argument('--aliquota-iss', dest='aliquota_iss',
+                        help='caminho A: alíquota do ISSQN em %%, só quando o município de incidência exigir')
+    parser.add_argument('--aliquota-irrf', dest='aliquota_irrf',
+                        help='caminho A: alíquota do IRRF retido pelo tomador, em %% (ex.: 1,5)')
+    for esfera in ('federais', 'estaduais', 'municipais'):
+        parser.add_argument(f'--tributos-{esfera}', dest=f'tributos_{esfera}',
+                            help=f'caminho A: percentual aproximado dos tributos {esfera} (Lei 12.741/2012)')
 
 
 def _add_period_args(parser):
@@ -159,6 +187,13 @@ def build_parser():
     conectar.add_argument('--padrao', action='store_true', help='torna esta a empresa padrão')
     conectar.add_argument('--sem-configurar', dest='sem_configurar', action='store_true',
                           help='não pergunta os padrões fiscais depois de conectar')
+    conectar.add_argument('--certificado', metavar='ARQUIVO',
+                          help='caminho A: conecta pelo certificado digital A1 (.pfx), pela API da Sefin Nacional')
+    conectar.add_argument('--ambiente', choices=['producao-restrita', 'producao'], default='producao-restrita',
+                          help='caminho A: producao-restrita (homologação, padrão) ou producao')
+    conectar.add_argument('--municipio', help='caminho A: código IBGE do município emissor da empresa')
+    conectar.add_argument('--inscricao-municipal', dest='inscricao_municipal', help='caminho A: inscrição municipal')
+    conectar.add_argument('--serie', type=int, default=1, help='caminho A: série da DPS (1 a 49999, padrão 1)')
 
     desconectar = add('desconectar', 'apaga a senha e a sessão gravadas da empresa', aliases=['disconnect'])
     desconectar.add_argument('--confirm', action='store_true')
@@ -179,9 +214,15 @@ def build_parser():
     config.add_argument('--info-complementar', dest='info_complementar')
     config.add_argument('--municipio-prestacao', dest='municipio_prestacao', help='código IBGE; "" volta ao padrão')
     config.add_argument('--nome-municipio-prestacao', dest='nome_municipio_prestacao')
+    _add_sefin_fiscal_args(config)
+    config.add_argument('--serie', type=int,
+                        help='caminho A: série da DPS (1 a 49999), uma que nenhum outro sistema da empresa use')
+    config.add_argument('--leiaute', choices=['1.01', '1.01-nt009', 'padrao'],
+                        help='caminho A: força o leiaute da DPS (virada da NT 009); "padrao" volta ao do ambiente')
 
     add('doctor', 'confere a instalação, as permissões e o acesso ao portal')
     add('instalar-pdf', 'instala o suporte a PDF (Playwright + Chromium)')
+    add('instalar-certificado', 'instala o suporte a certificado digital do caminho A (cryptography)')
     add('whoami', 'contribuinte logado no portal')
 
     servicos = add('servicos', 'pesquisa códigos de tributação nacional')
@@ -228,6 +269,12 @@ def build_parser():
     impressao.add_argument('chave')
     impressao.add_argument('--out', required=True)
 
+    xml = add('xml', 'caminho A: salva o XML oficial de uma NFS-e')
+    xml.add_argument('chave')
+    xml.add_argument('--out', required=True)
+    dps = add('dps', 'caminho A: consulta na Sefin se uma DPS gerou NFS-e (para conferir emissão incerta)')
+    dps.add_argument('id', help='identificador da DPS (DPS + 42 dígitos)')
+
     registro = add('registro', 'registro local das emissões (controle contra nota em dobro)')
     registro.add_argument('--referencia')
     registro.add_argument('--status', choices=['preparada', 'emitida', 'incerta', 'erro', 'cancelada'])
@@ -255,24 +302,113 @@ def _fiscal_from_args(store, empresa, args):
         nome_municipio_prestacao=args.nome_municipio_prestacao,
         tipo_valor_tributos=tipo,
         aliquota_sn=aliquota,
+        aliquota_iss=_parse_rate(args.aliquota_iss) if getattr(args, 'aliquota_iss', None) else None,
+        aliquota_irrf=_parse_rate(args.aliquota_irrf) if getattr(args, 'aliquota_irrf', None) else None,
+        **{
+            f'tributos_{esfera}': _parse_rate(getattr(args, f'tributos_{esfera}'))
+            for esfera in ('federais', 'estaduais', 'municipais')
+            if getattr(args, f'tributos_{esfera}', None) is not None
+        },
     )
     validate_fiscal(fiscal)
     return fiscal
 
 
+def _endereco_tomador(args):
+    informados = [campo for campo in TOMADOR_ENDERECO if getattr(args, campo, None)]
+    if not informados and not getattr(args, 'tomador_complemento', None):
+        return None
+    faltando = [campo for campo in TOMADOR_ENDERECO if campo not in informados]
+    if faltando:
+        opcoes = ', '.join('--' + campo.replace('_', '-') for campo in faltando)
+        raise NfseValidationError(f'endereço do tomador incompleto: falta {opcoes}', ['endereço'])
+    municipio = only_digits(args.tomador_municipio)
+    if len(municipio) != 7:
+        raise NfseValidationError('--tomador-municipio é o código IBGE de 7 dígitos', ['endereço'])
+    return Endereco(
+        cep=only_digits(args.tomador_cep), codigo_municipio=municipio, nome_municipio='', bairro=args.tomador_bairro,
+        logradouro=args.tomador_logradouro, numero=args.tomador_numero, complemento=args.tomador_complemento or '',
+    )
+
+
 def _request_from_args(store, empresa, args):
+    transporte = store.transporte(empresa)
     fiscal = _fiscal_from_args(store, empresa, args)
-    fiscal.require_complete()
+    fiscal.require_complete(transporte)
+    endereco = _endereco_tomador(args)
+    valor = parse_valor(args.valor)
     return EmissionRequest(
         competencia=parse_date(args.competencia) if args.competencia else date.today(),
         tomador=Tomador(
-            documento=args.documento, nome=args.nome or '', email=args.email or '', telefone=args.telefone or ''
+            documento=args.documento, nome=args.nome or '', email=args.email or '', telefone=args.telefone or '',
+            endereco=endereco,
         ),
-        valor=parse_valor(args.valor),
-        servico=fiscal.servico(),
-        tributacao=fiscal.tributacao(),
+        valor=valor,
+        servico=fiscal.servico(transporte),
+        tributacao=fiscal.tributacao(
+            transporte, reter_issqn=getattr(args, 'reter_iss', False), valor=valor,
+            reter_irrf=not getattr(args, 'sem_irrf', False),
+        ),
         referencia=(args.referencia or '').strip(),
     )
+
+
+def _leiaute_do_ambiente(ambiente):
+    from .dps import leiaute_padrao
+    from .sefin import AMBIENTES
+
+    return leiaute_padrao(AMBIENTES[ambiente][1])
+
+
+def _status_sefin(store, empresa, args):
+    from .errors import CertificateError
+
+    origem = store.certificate_origin(empresa)
+    config = store.sefin_config(empresa)
+    fiscal = store.fiscal(empresa)
+    faltando = fiscal.missing(TRANSPORTE_SEFIN)
+    data = {
+        'empresa': empresa,
+        'caminho': TRANSPORTE_SEFIN,
+        'conectada': bool(origem),
+        'origem_credenciais': origem,
+        'ambiente': config['ambiente'],
+        'leiaute': config.get('leiaute') or _leiaute_do_ambiente(config['ambiente']),
+        'emitente': {k: config.get(k) for k in ('cnpj', 'codigo_municipio', 'inscricao_municipal', 'serie')},
+        'empresa_padrao': store.default_profile(),
+        'empresas': store.profiles(),
+        'perfil_fiscal': {'completo': not faltando, 'faltando': faltando, **fiscal.as_dict()},
+        'pasta': str(store.home),
+        'versao': __version__,
+    }
+    if not origem:
+        data['proximo_passo'] = (
+            'peça ao usuário para rodar `nfseai conectar --certificado <arquivo.pfx>` no terminal dele (a senha '
+            'do certificado é digitada lá, nunca no chat) e avise quando terminar'
+        )
+        return data, EXIT_NOT_CONNECTED
+    try:
+        certificado = store.load_certificate(empresa)
+        certificado.conferir(config['cnpj'])
+        data['certificado'] = {
+            'cnpj': certificado.cnpj, 'titular': certificado.titular,
+            'valido_ate': certificado.valido_ate.date().isoformat(),
+        }
+    except (CertificateError, NotConnectedError) as exc:
+        data['certificado'] = {'ok': False, 'erro': str(exc)}
+        data['proximo_passo'] = 'o certificado precisa ser renovado ou conectado de novo pelo usuário'
+        return data, EXIT_ERROR
+    if args.online:
+        data['online'] = 'o teste de conexão com a Sefin entra depois da validação na produção restrita'
+    if faltando:
+        data['proximo_passo'] = (
+            'grave os padrões fiscais com `nfseai configurar --codigo-servico ... --nbs ... --descricao \"...\" '
+            '--tributos-federais ... --tributos-estaduais ... --tributos-municipais ...` (os valores vêm do '
+            'contador)'
+        )
+        return data, EXIT_FISCAL_INCOMPLETE
+    data['proximo_passo'] = 'pronto; antes de emitir, faça o ensaio com `nfseai preparar` (nada é enviado à Sefin)'
+    return data, EXIT_OK
 
 
 def _status(store, args):
@@ -281,12 +417,15 @@ def _status(store, args):
         empresa = store.resolve(getattr(args, 'empresa', None))
     except ProfileError as exc:
         return {'conectada': False, 'empresas': known, 'erro': str(exc)}, EXIT_ERROR
+    if store.transporte(empresa) == TRANSPORTE_SEFIN:
+        return _status_sefin(store, empresa, args)
     origem = store.credentials_origin(empresa)
     login = store.login_user(empresa)
     fiscal = store.fiscal(empresa)
     faltando = fiscal.missing()
     data = {
         'empresa': empresa,
+        'caminho': 'portal',
         'conectada': bool(origem),
         'origem_credenciais': origem,
         'login': format_document(login) if login and len(login) in (11, 14) else login,
@@ -319,6 +458,18 @@ def _status(store, args):
     else:
         data['proximo_passo'] = 'pronto para consultar; antes de emitir, faça o ensaio com `nfseai preparar`'
     return data, code
+
+
+def _empresa_view(store, name):
+    transporte = store.transporte(name)
+    origem = store.certificate_origin(name) if transporte == TRANSPORTE_SEFIN else store.credentials_origin(name)
+    return {
+        'nome': name,
+        'caminho': transporte,
+        'conectada': bool(origem),
+        'origem_credenciais': origem,
+        'perfil_fiscal_completo': not store.fiscal(name).missing(transporte),
+    }
 
 
 def _client(store, empresa):
@@ -377,6 +528,17 @@ def _doctor(store):
     return {'ok': ok, 'versao': __version__, 'verificacoes': checks}, EXIT_OK if ok else EXIT_ERROR
 
 
+def _install_certificate():
+    """Instala o pacote `cryptography` no ambiente do nfseai (extra `certificado`)."""
+    command = [sys.executable, '-m', 'pip', 'install', '--quiet', '--disable-pip-version-check', 'cryptography>=42']
+    if subprocess.run([sys.executable, '-m', 'pip', '--version'], capture_output=True).returncode != 0:  # noqa: S603
+        command = ['uv', 'pip', 'install', '--quiet', '--python', sys.executable, 'cryptography>=42']
+    result = subprocess.run(command, capture_output=True, text=True)  # noqa: S603
+    if result.returncode != 0:
+        raise NfseError(f'falha ao instalar o suporte a certificado: {(result.stderr or result.stdout).strip()[-400:]}')
+    return {'instalado': True, 'proximo_passo': 'rode `nfseai conectar --certificado <arquivo.pfx>` no seu terminal'}
+
+
 def _install_pdf():
     """Instala o Playwright e o Chromium sem interface (headless shell) no ambiente do nfseai."""
     def execute(command):
@@ -431,7 +593,7 @@ def _nota_view(nota):
         'tomador_nome': nota.tomador_nome,
         'numero_dps': nota.numero_dps,
         'serie_dps': nota.serie_dps,
-        'secoes': nota.secoes,
+        **({'secoes': nota.secoes} if hasattr(nota, 'secoes') else {'competencia': nota.competencia}),
     }
 
 
@@ -457,6 +619,15 @@ def run(args):
     store = Store(env_file=getattr(args, 'env_file', None))
     requested = getattr(args, 'empresa', None)
     command = {'connect': 'conectar', 'disconnect': 'desconectar'}.get(args.command, args.command)
+
+    if command == 'conectar' and args.certificado:
+        _require_tty('conectar')
+        connect_certificate(
+            store, Console(), args.certificado, empresa=requested, ambiente=args.ambiente,
+            codigo_municipio=args.municipio, inscricao_municipal=args.inscricao_municipal or '', serie=args.serie,
+            make_default=True if args.padrao else None,
+        )
+        return None, EXIT_OK
 
     if command == 'conectar':
         _require_tty('conectar')
@@ -488,15 +659,7 @@ def run(args):
     if command == 'empresas':
         return {
             'empresa_padrao': store.default_profile(),
-            'empresas': [
-                {
-                    'nome': name,
-                    'conectada': bool(store.credentials_origin(name)),
-                    'origem_credenciais': store.credentials_origin(name),
-                    'perfil_fiscal_completo': not store.fiscal(name).missing(),
-                }
-                for name in store.profiles()
-            ],
+            'empresas': [_empresa_view(store, name) for name in store.profiles()],
         }, EXIT_OK
     if command == 'usar':
         return {'empresa_padrao': store.set_default(args.nome)}, EXIT_OK
@@ -504,8 +667,18 @@ def run(args):
         return _doctor(store)
     if command == 'instalar-pdf':
         return _install_pdf(), EXIT_OK
+    if command == 'instalar-certificado':
+        return _install_certificate(), EXIT_OK
 
     empresa = store.resolve(requested)
+    transporte = store.transporte(empresa)
+    if transporte == TRANSPORTE_SEFIN and (command in SO_PORTAL or getattr(args, 'pdf', None) is not None):
+        raise UsageError(
+            f'`nfseai {command}` existe só no caminho B (portal, login por CNPJ e senha). A empresa "{empresa}" '
+            'usa o caminho A (certificado): use `nfseai nota <chave>`, `nfseai xml <chave>` e `nfseai dps <id>`.'
+        )
+    if transporte != TRANSPORTE_SEFIN and command in SO_SEFIN:
+        raise UsageError(f'`nfseai {command}` existe só no caminho A (empresa conectada por certificado).')
 
     if command == 'desconectar':
         if not args.confirm:
@@ -513,11 +686,31 @@ def run(args):
         return {'empresa': empresa, 'removida': store.remove_credentials(empresa)}, EXIT_OK
 
     if command == 'configurar':
+        caminho_a = None
+        if args.serie is not None or args.leiaute is not None:
+            if transporte != TRANSPORTE_SEFIN:
+                raise UsageError('--serie e --leiaute existem só no caminho A (empresa conectada por certificado).')
+            leiaute = None if args.leiaute is None else ('' if args.leiaute == 'padrao' else args.leiaute)
+            gravado = store.save_sefin_options(empresa, leiaute=leiaute, serie=args.serie)
+            caminho_a = {
+                'serie': gravado.get('serie'),
+                'leiaute': gravado.get('leiaute') or _leiaute_do_ambiente(gravado['ambiente']),
+            }
         flags = (
             args.codigo_servico, args.nbs, args.descricao, args.aliquota_sn, args.info_complementar,
-            args.municipio_prestacao, args.nome_municipio_prestacao,
+            args.municipio_prestacao, args.nome_municipio_prestacao, args.aliquota_iss, args.aliquota_irrf,
+            args.tributos_federais,
+            args.tributos_estaduais, args.tributos_municipais,
         )
+        if caminho_a is not None and all(flag is None for flag in flags) and not args.sem_valor_tributos:
+            return {'empresa': empresa, 'caminho_a': caminho_a}, EXIT_OK
         if all(flag is None for flag in flags) and not args.sem_valor_tributos:
+            if transporte == TRANSPORTE_SEFIN:
+                raise UsageError(
+                    'no caminho A, grave os padrões com as opções: --codigo-servico, --nbs, --descricao, '
+                    '--tributos-federais, --tributos-estaduais, --tributos-municipais (e --aliquota-iss se o '
+                    'município exigir)'
+                )
             _require_tty('configurar')
             client = _client(store, empresa) if store.credentials_origin(empresa) else None
             try:
@@ -528,11 +721,14 @@ def run(args):
             return None, EXIT_OK
         fiscal = _fiscal_from_args(store, empresa, args)
         saved = store.save_fiscal(empresa, **fiscal.as_dict(raw=True))
-        faltando = saved.missing()
-        return {
+        faltando = saved.missing(transporte)
+        data = {
             'empresa': empresa,
             'perfil_fiscal': {'completo': not faltando, 'faltando': faltando, **saved.as_dict()},
-        }, EXIT_OK if not faltando else EXIT_FISCAL_INCOMPLETE
+        }
+        if caminho_a is not None:
+            data['caminho_a'] = caminho_a
+        return data, EXIT_OK if not faltando else EXIT_FISCAL_INCOMPLETE
 
     if command == 'registro':
         ledger = _ledger(store)
@@ -628,6 +824,16 @@ def run(args):
             target.write_text(client.notas.impressao_html(args.chave), encoding='utf-8')
             target.chmod(0o600)
             return {'arquivo': str(target), 'chave_acesso': args.chave}, EXIT_OK
+        if command == 'xml':
+            target = Path(args.out).expanduser()
+            target.parent.mkdir(parents=True, exist_ok=True)
+            conteudo = client.notas.download_xml(args.chave)
+            target.write_bytes(conteudo)
+            target.chmod(0o600)
+            return {'arquivo': str(target), 'chave_acesso': args.chave, 'bytes': len(conteudo)}, EXIT_OK
+        if command == 'dps':
+            chave = client.notas.chave_da_dps(args.id)
+            return {'id_dps': args.id, 'encontrada': bool(chave), 'chave_acesso': chave}, EXIT_OK
         if command == 'registrar':
             return operations.register_existing(
                 client, _ledger(store), empresa, args.referencia.strip(), args.chave

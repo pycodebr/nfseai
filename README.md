@@ -277,6 +277,20 @@ Ainda **não** são suportados: MEI (emissão simplificada), empresas fora do Si
 
 Quando a nota ou a empresa está fora do cenário, o comando recusa com `UnsupportedScenario` antes de enviar qualquer dado. A tabela completa, com o que foi validado e o que foi apenas implementado, está em [`cenarios.md`](skills/nfseai/references/cenarios.md). Se o seu caso não está coberto, veja [`docs/caminhos.md`](docs/caminhos.md) para as alternativas e [`docs/remapeamento.md`](docs/remapeamento.md) para contribuir com o mapeamento.
 
+### Empresas com certificado digital: API oficial
+
+Empresas fora do Simples Nacional, ou com ISSQN retido pelo tomador, podem emitir pela API oficial da Sefin Nacional com o certificado digital A1 da empresa (o caminho A de [`docs/caminhos.md`](docs/caminhos.md)). Esse caminho foi validado no ambiente `producao-restrita`, em que as notas não têm valor fiscal (emissão, consulta, XML oficial e cancelamento), e já emitiu notas na produção com o certificado de uma empresa fora do Simples Nacional. Comece pela produção restrita e, antes de passar a empresa para a produção, siga o roteiro de [`certificado.md`](skills/nfseai/references/certificado.md) (série da DPS, padrões fiscais e leiaute).
+
+```bash
+pip install "nfseai[certificado] @ git+https://github.com/pycodebr/nfseai"   # suporte a certificado (opcional)
+nfseai conectar --certificado ~/empresa.pfx --municipio <código IBGE>        # no seu terminal; pede a senha do certificado
+nfseai configurar --codigo-servico ... --nbs ... --descricao "..." --tributos-federais ... --tributos-estaduais ... --tributos-municipais ...
+nfseai emitir --documento ... --nome "..." --valor ... --referencia ...      # ensaio local: nada é enviado
+nfseai xml <chave> --out nota.xml                                             # XML oficial da nota
+```
+
+As mesmas proteções valem: a senha do certificado não passa pelo chat, o ensaio vem antes da emissão, emitir e cancelar exigem `--confirm` e a referência impede nota em dobro. Os detalhes estão em [`certificado.md`](skills/nfseai/references/certificado.md) e o desenho, em [`docs/caminho-a.md`](docs/caminho-a.md).
+
 ## Segurança e privacidade
 
 - **Onde ficam os seus dados.** Tudo fica em `~/.nfseai`, com acesso restrito ao seu usuário do sistema (pasta em modo 700 e arquivos em modo 600): `credentials.json` (CNPJ e senha), `config.json` (padrões fiscais), `sessions/` (sessão do portal), `ledger.sqlite3` (registro das emissões), `debug/` (respostas do portal nas emissões) e `pdf/`.
@@ -321,7 +335,7 @@ Referência completa em [`python-api.md`](skills/nfseai/references/python-api.md
 Não. O canal oficial de integração é a API da Sefin Nacional, que exige certificado digital. O `nfseai` usa o portal do contribuinte com o seu login, do mesmo jeito que você usaria no navegador. A comparação entre os caminhos está em [`docs/caminhos.md`](docs/caminhos.md).
 
 **Preciso de certificado digital?**
-Não. Bastam o CNPJ e a senha do Emissor Nacional.
+Não. Bastam o CNPJ e a senha do Emissor Nacional. O certificado só é necessário para quem usa a API oficial, descrita em "Empresas com certificado digital".
 
 **Sou MEI. Funciona?**
 Ainda não. O MEI usa a emissão simplificada, que tem outra tela e não foi mapeada. As consultas funcionam.

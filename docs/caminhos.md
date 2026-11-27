@@ -14,8 +14,10 @@ certificado ICP-Brasil, por conexão mTLS, e devolve o XML da NFS-e autorizada. 
 - Custos: certificado e-CNPJ A1 (compra, renovação anual e guarda segura do arquivo), assinatura XML,
   implementação do leiaute e das regras de validação, numeração própria e geração do PDF.
 
-O `nfseai` **não implementa** este caminho. Para um volume alto de notas ou para uma operação que precisa
-do XML de cada nota, ele é o destino recomendado.
+O `nfseai` implementa este caminho para emitentes fora do Simples Nacional, com ou sem retenção do ISSQN pelo
+tomador (`nfseai conectar --certificado`). Ele foi validado na produção restrita (homologação) e já emitiu
+notas na produção: o desenho, o que foi validado e o que está em aberto estão em [caminho-a.md](caminho-a.md). Para um volume alto
+de notas ou para uma operação que precisa do XML de cada nota, ele é o destino recomendado.
 
 ## B. Portal do contribuinte por HTTP (o que o `nfseai` faz)
 
@@ -55,7 +57,8 @@ fiscal da empresa.
 |---|---|
 | Poucas notas por mês, empresa do Simples (ME/EPP), sem certificado, quer pedir a nota a um agente de IA | B (`nfseai`) |
 | Precisa do XML de cada nota, de ambiente de testes ou de alto volume | A |
-| Empresa fora do cenário mapeado (MEI, fora do Simples, retenções, tomador no exterior) | A, D ou o portal à mão |
+| Empresa fora do Simples Nacional, com certificado A1, com ou sem retenção do ISSQN | A (`nfseai conectar --certificado`) |
+| Empresa fora do cenário mapeado (MEI, regimes especiais, tomador no exterior) | D ou o portal à mão |
 | Município que ainda não aderiu ao emissor nacional | sistema do município |
 
 O contrato de dados do `nfseai` (`EmissionRequest` na entrada, chave de acesso na saída) foi desenhado para

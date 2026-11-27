@@ -96,7 +96,7 @@ All derive from `nfseai.NfseError`.
 | `NfseAuthError` | login refused or session expired with no retry allowed |
 | `NfseHttpError` | network failure or unexpected HTTP status (`status_code`, `method`, `url`) |
 | `NfseValidationError` | local validation or the portal refused the data (`errors`) |
-| `EmissionRejectedError` | the portal answered the emission with an error; no invoice |
+| `EmissionRejectedError` | the portal answered the emission with an error; no invoice. On path A, `dicas` holds what to do for known codes (E0014, E1235) |
 | `EmissionUncertainError` | emission sent, result unknown (`draft_id`, `final_url`, `debug_path`); never retry |
 | `ConfirmationRequired` | a fiscal act was called without `confirm=True` |
 | `UnsupportedScenario` | outside the mapped fiscal scenario |

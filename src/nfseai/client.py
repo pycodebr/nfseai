@@ -800,10 +800,15 @@ class EmissorNacionalClient:
         A sessão do portal fica em ``~/.nfseai/sessions/<empresa>.json`` e as respostas das
         emissões em ``~/.nfseai/debug``, salvo quando outro caminho é informado.
         """
-        from .profiles import Store
+        from .profiles import TRANSPORTE_SEFIN, Store
 
         store = Store(home=home, env_file=env_file)
         name = store.resolve(empresa)
+        if store.transporte(name) == TRANSPORTE_SEFIN:
+            # Caminho A: empresa conectada por certificado digital (API da Sefin Nacional).
+            from .sefin import SefinClient
+
+            return SefinClient.from_profile(name, store=store)
         credentials = store.load_credentials(name)
         store.ensure_home()
         if session_file is None:

@@ -4,13 +4,17 @@ Estes assistentes são rodados pelo próprio usuário, no terminal dele. A senha
 sem eco, usada em uma única tentativa de login e gravada em
 ``~/.nfseai/credentials.json`` (modo 600). Um agente de IA não deve rodar o
 `conectar` nem pedir a senha no chat.
+
+O mesmo vale para o certificado digital do caminho A (`conectar --certificado`): a senha
+do certificado é lida sem eco e o arquivo é copiado para a pasta privada do nfseai.
 """
 import getpass
 import sys
 from decimal import Decimal, InvalidOperation
+from pathlib import Path
 
 from .config import format_document, only_digits, validate_document
-from .errors import NfseAuthError, NfseError, ProfileError
+from .errors import CertificateError, NfseAuthError, NfseError, ProfileError
 from .profiles import DEFAULT_PROFILE, normalize_service_code, validate_profile_name
 
 MAX_ATTEMPTS = 3
@@ -132,6 +136,77 @@ def connect(store, console, client_factory, *, empresa=None, test_login=True, ma
         'login_testado': bool(identity),
         'padrao': store.default_profile() == name,
     }
+
+
+def _parse_ibge(text):
+    digits = only_digits(text)
+    if len(digits) != 7 or digits != text.strip():
+        raise ProfileError('o código IBGE do município tem 7 dígitos (ex.: 3550308)')
+    return digits
+
+
+def connect_certificate(store, console, arquivo, *, empresa=None, ambiente='producao-restrita',
+                        codigo_municipio=None, inscricao_municipal='', serie=1, make_default=None):
+    """Conecta uma empresa pelo caminho A: abre o certificado A1, mostra a empresa e grava após confirmação.
+
+    O ambiente padrão é a produção restrita (homologação, notas sem valor fiscal). Emitir em produção exige
+    escolher ``ambiente='producao'`` de forma explícita. Devolve um resumo sem a senha.
+    """
+    from .certificado import CertificadoA1
+
+    console.say('nfseai · conectar pelo certificado digital (API oficial da Sefin Nacional)')
+    console.say('')
+    console.say('Você vai informar a senha do certificado A1 (.pfx) da empresa. O arquivo é copiado para')
+    console.say(f'{store.home / "certificados"} e a senha fica em {store.credentials_path}, com acesso restrito ao')
+    console.say('seu usuário. Os dois só são usados para assinar as notas e abrir a conexão com a Sefin.')
+    console.say('')
+    caminho = Path(arquivo).expanduser()
+    if not caminho.is_file():
+        raise WizardAborted(f'arquivo do certificado não encontrado: {caminho}; nada foi gravado')
+    if empresa:
+        name = validate_profile_name(empresa)
+    else:
+        name = _ask_valid(
+            console, 'Apelido desta empresa (letras minúsculas, números e "-")', validate_profile_name,
+            default=store.default_profile() or DEFAULT_PROFILE, error='apelido inválido',
+        )
+    if store.certificate_origin(name) == 'arquivo' and not console.yes_no(
+        f'A empresa "{name}" já tem um certificado gravado. Substituir?', default=True
+    ):
+        raise WizardAborted('certificado mantido; nada foi alterado')
+    senha = console.secret('Senha do certificado (não aparece enquanto você digita)')
+    if not senha:
+        raise WizardAborted('senha vazia; nada foi gravado')
+    try:
+        certificado = CertificadoA1.carregar(caminho, senha)
+    except CertificateError as exc:
+        raise WizardAborted(f'{exc}. Nada foi gravado.') from None
+    console.say('')
+    console.say(f'Certificado de: {certificado.titular}')
+    console.say(f'CNPJ: {format_document(certificado.cnpj) if certificado.cnpj else "não encontrado"}')
+    console.say(f'Válido até: {certificado.valido_ate:%d/%m/%Y}')
+    console.say(f'Ambiente: {ambiente}' + (' (homologação, notas sem valor fiscal)' if ambiente != 'producao' else ''))
+    console.say('')
+    if not codigo_municipio:
+        codigo_municipio = _ask_valid(
+            console, 'Código IBGE do município emissor da empresa (7 dígitos)', _parse_ibge,
+            error='código IBGE inválido',
+        )
+    if not console.yes_no('É esta a empresa que vai emitir as notas?', default=True):
+        raise WizardAborted('conexão cancelada; nada foi gravado')
+    try:
+        resumo = store.save_certificate(
+            name, caminho, senha, ambiente=ambiente, codigo_municipio=codigo_municipio,
+            inscricao_municipal=inscricao_municipal or '', serie=serie, make_default=make_default,
+        )
+    except (CertificateError, ProfileError) as exc:
+        raise WizardAborted(f'{exc}. Nada foi gravado.') from None
+    console.say(f'Empresa "{name}" conectada pelo certificado digital.')
+    if not inscricao_municipal:
+        console.say('Se o município exigir a inscrição municipal na nota, rode de novo com --inscricao-municipal.')
+    console.say('Próximo passo: grave os padrões fiscais com `nfseai configurar --codigo-servico ... --nbs ... '
+                '--descricao "..." --tributos-federais ... --tributos-estaduais ... --tributos-municipais ...`.')
+    return resumo
 
 
 def _drop(path):
@@ -289,4 +364,4 @@ def configure(store, console, name, client=None):
     return saved
 
 
-__all__ = ['Console', 'WizardAborted', 'configure', 'connect']
+__all__ = ['Console', 'WizardAborted', 'configure', 'connect', 'connect_certificate']

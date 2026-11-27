@@ -41,6 +41,20 @@ CREATE TABLE IF NOT EXISTS emissoes (
     PRIMARY KEY (empresa, referencia)
 );
 CREATE UNIQUE INDEX IF NOT EXISTS emissoes_chave ON emissoes (chave_acesso) WHERE chave_acesso IS NOT NULL;
+CREATE TABLE IF NOT EXISTS numeracao_dps (
+    empresa TEXT NOT NULL,
+    serie INTEGER NOT NULL,
+    ultimo INTEGER NOT NULL,
+    PRIMARY KEY (empresa, serie)
+);
+CREATE TABLE IF NOT EXISTS reservas_dps (
+    empresa TEXT NOT NULL,
+    serie INTEGER NOT NULL,
+    numero INTEGER NOT NULL,
+    referencia TEXT,
+    reservado_em TEXT NOT NULL,
+    PRIMARY KEY (empresa, serie, numero)
+);
 CREATE TABLE IF NOT EXISTS historico (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     at TEXT NOT NULL,
@@ -155,6 +169,33 @@ class Ledger:
                 'VALUES (?, ?, ?, ?, ?, ?)',
                 (_now(), empresa, referencia, evento, chave_acesso, detalhe),
             )
+
+    def reservar_dps(self, empresa, serie, referencia=None):
+        """Reserva o próximo número da DPS (caminho A) antes do envio. Um número reservado nunca volta.
+
+        O incremento e a reserva acontecem na mesma transação, então duas emissões ao mesmo tempo nunca
+        recebem o mesmo número. A reserva guarda a referência, para conferir depois uma emissão incerta.
+        """
+        with closing(self._connect()) as conn, conn:
+            numero = conn.execute(
+                'INSERT INTO numeracao_dps (empresa, serie, ultimo) VALUES (?, ?, 1) '
+                'ON CONFLICT (empresa, serie) DO UPDATE SET ultimo = ultimo + 1 RETURNING ultimo',
+                (empresa, int(serie)),
+            ).fetchone()[0]
+            conn.execute(
+                'INSERT INTO reservas_dps (empresa, serie, numero, referencia, reservado_em) VALUES (?, ?, ?, ?, ?)',
+                (empresa, int(serie), numero, referencia, _now()),
+            )
+        return numero
+
+    def reservas_dps(self, empresa, *, limit=50):
+        with closing(self._connect()) as conn:
+            rows = conn.execute(
+                'SELECT serie, numero, referencia, reservado_em FROM reservas_dps WHERE empresa = ? '
+                'ORDER BY serie, numero LIMIT ?',
+                (empresa, int(limit)),
+            ).fetchall()
+        return [dict(row) for row in rows]
 
     def history(self, empresa, referencia):
         with closing(self._connect()) as conn:

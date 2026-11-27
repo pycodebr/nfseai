@@ -67,6 +67,10 @@ class CaptchaRequired(NfseError):
     """O recurso exige hCaptcha no portal web e não é automatizado por este cliente."""
 
 
+class CertificateError(NfseError):
+    """Certificado A1 ausente, ilegível, vencido ou de outro CNPJ (caminho A). A senha nunca aparece aqui."""
+
+
 class EmissionUncertainError(NfseError):
     """A requisição de emissão foi enviada, mas o resultado não pôde ser confirmado.
 

@@ -63,11 +63,26 @@ class Servico:
 
 
 @dataclass(frozen=True)
-class Tributacao:
-    """Opções de tributação mapeadas (Simples Nacional, sem retenção).
+class TributosAproximados:
+    """Percentuais aproximados dos tributos (Lei 12.741/2012), usados no caminho A por quem não é do Simples."""
 
-    `tipo_valor_tributos` é a pergunta "valor aproximado dos tributos" da tela:
-    4 informa a alíquota do Simples Nacional (`aliquota_sn`, em %) e 3 não informa.
+    federal: Decimal
+    estadual: Decimal
+    municipal: Decimal
+
+
+@dataclass(frozen=True)
+class Tributacao:
+    """Opções de tributação mapeadas.
+
+    No caminho B (portal), só Simples Nacional, sem retenção. `tipo_valor_tributos` é a pergunta
+    "valor aproximado dos tributos" da tela: 4 informa a alíquota do Simples Nacional (`aliquota_sn`,
+    em %) e 3 não informa.
+
+    No caminho A (API com certificado), `reter_issqn` indica ISSQN retido pelo tomador, `aliquota_iss`
+    vai na DPS só quando o município de incidência exige e `tributos_aproximados` substitui
+    `tipo_valor_tributos` para quem não é do Simples. `retencao_irrf` é o valor em reais do IRRF retido
+    pelo tomador (grupo `tribFed/vRetIRRF`).
     """
 
     tipo_valor_tributos: int = 4
@@ -75,6 +90,9 @@ class Tributacao:
     regime_apuracao_sn: int = 1
     reter_issqn: bool = False
     preencher_ibs_cbs: bool = False
+    aliquota_iss: Decimal | None = None
+    tributos_aproximados: TributosAproximados | None = None
+    retencao_irrf: Decimal | None = None
 
 
 @dataclass(frozen=True)

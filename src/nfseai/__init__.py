@@ -4,6 +4,7 @@ from .config import Credentials
 from .errors import (
     CancellationNotAllowed,
     CaptchaRequired,
+    CertificateError,
     ConfirmationRequired,
     DuplicateReferenceError,
     EmissionRejectedError,
@@ -29,6 +30,7 @@ from .models import (
     Servico,
     Tomador,
     Tributacao,
+    TributosAproximados,
 )
 from .profiles import FiscalDefaults, Store
 from .transport import PortalSession
@@ -41,6 +43,7 @@ __all__ = [
     'MOTIVO_SERVICO_NAO_PRESTADO',
     'CancellationNotAllowed',
     'CaptchaRequired',
+    'CertificateError',
     'ConfirmationRequired',
     'Credentials',
     'DuplicateReferenceError',
@@ -65,5 +68,6 @@ __all__ = [
     'Store',
     'Tomador',
     'Tributacao',
+    'TributosAproximados',
     'UnsupportedScenario',
 ]

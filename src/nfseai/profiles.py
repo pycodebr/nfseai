@@ -8,24 +8,28 @@ arquivos em modo 600:
 - ``sessions/<empresa>.json``: cookies da sessão do portal;
 - ``ledger.sqlite3``: registro local das emissões;
 - ``debug/``: respostas do portal nas emissões e nos cancelamentos;
-- ``pdf/``: PDFs gerados sem caminho de saída.
+- ``pdf/``: PDFs gerados sem caminho de saída;
+- ``certificados/<empresa>.pfx``: certificado A1 das empresas do caminho A (API da Sefin Nacional);
+- ``tls/``: pasta onde a chave do certificado fica por um instante ao abrir a conexão (apagada em seguida).
 
 As credenciais também podem vir do ambiente, para servidores e contêineres:
 ``NFSEAI_<EMPRESA>_USER`` e ``NFSEAI_<EMPRESA>_PASSWORD`` para uma empresa específica,
-ou ``NFSEAI_USER`` e ``NFSEAI_PASSWORD`` para a empresa em uso. O ambiente tem
-precedência sobre o arquivo. A senha nunca é impressa nem incluída em mensagens.
+ou ``NFSEAI_USER`` e ``NFSEAI_PASSWORD`` para a empresa em uso. No caminho A, o certificado vem de
+``NFSEAI_<EMPRESA>_CERT`` (caminho do .pfx) e ``NFSEAI_<EMPRESA>_CERT_PASSWORD``, ou de ``NFSEAI_CERT`` e
+``NFSEAI_CERT_PASSWORD``. O ambiente tem precedência sobre o arquivo. Nenhuma senha é impressa nem incluída
+em mensagens.
 """
 import json
 import os
 import re
 import tempfile
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation
+from decimal import ROUND_DOWN, Decimal, InvalidOperation
 from pathlib import Path
 
 from .config import Credentials, only_digits
 from .errors import FiscalProfileIncomplete, NotConnectedError, ProfileError
-from .models import Servico, Tributacao
+from .models import Servico, Tributacao, TributosAproximados
 
 HOME_ENV = 'NFSEAI_HOME'
 PROFILE_ENV = 'NFSEAI_EMPRESA'
@@ -44,12 +48,24 @@ SERVICO_KEYS = (
     'nome_municipio_prestacao',
     'informacoes_complementares',
 )
-TRIBUTACAO_KEYS = ('tipo_valor_tributos', 'aliquota_sn')
+TRIBUTACAO_KEYS = (
+    'tipo_valor_tributos', 'aliquota_sn', 'aliquota_iss', 'tributos_federais', 'tributos_estaduais',
+    'tributos_municipais', 'aliquota_irrf',
+)
+DECIMAL_KEYS = (
+    'aliquota_sn', 'aliquota_iss', 'tributos_federais', 'tributos_estaduais', 'tributos_municipais', 'aliquota_irrf',
+)
+IRRF_DISPENSADO_ATE = Decimal('10.00')  # Lei 9.430/1996, art. 67
+TRANSPORTE_PORTAL = 'portal'
+TRANSPORTE_SEFIN = 'sefin'
+AMBIENTES_SEFIN = ('producao-restrita', 'producao')
 FISCAL_LABELS = {
     'codigo_tributacao_nacional': 'código de tributação nacional do serviço (--codigo-servico)',
     'codigo_nbs': 'código NBS (--nbs)',
     'descricao': 'descrição do serviço (--descricao)',
     'aliquota_sn': 'alíquota do Simples Nacional (--aliquota-sn) ou --sem-valor-tributos',
+    'tributos_aproximados': 'percentuais aproximados dos tributos (--tributos-federais, --tributos-estaduais e '
+                            '--tributos-municipais)',
 }
 
 
@@ -121,16 +137,35 @@ class FiscalDefaults:
     informacoes_complementares: str = ''
     tipo_valor_tributos: int = 4
     aliquota_sn: Decimal | None = None
+    aliquota_iss: Decimal | None = None
+    tributos_federais: Decimal | None = None
+    tributos_estaduais: Decimal | None = None
+    tributos_municipais: Decimal | None = None
+    aliquota_irrf: Decimal | None = None
 
-    def missing(self):
-        """Campos obrigatórios que ainda não têm valor."""
-        faltando = [key for key in ('codigo_tributacao_nacional', 'codigo_nbs', 'descricao') if not getattr(self, key)]
-        if self.tipo_valor_tributos == 4 and self.aliquota_sn is None:
+    @property
+    def tributos_aproximados(self):
+        valores = (self.tributos_federais, self.tributos_estaduais, self.tributos_municipais)
+        if any(valor is None for valor in valores):
+            return None
+        return TributosAproximados(*valores)
+
+    def missing(self, transporte=TRANSPORTE_PORTAL):
+        """Campos obrigatórios que ainda não têm valor, conforme o caminho da empresa."""
+        obrigatorios = ('codigo_tributacao_nacional', 'codigo_nbs', 'descricao')
+        if transporte == TRANSPORTE_SEFIN:
+            # O grupo cNBS é opcional na DPS 1.01; a Sefin aceita a nota sem NBS.
+            obrigatorios = ('codigo_tributacao_nacional', 'descricao')
+        faltando = [key for key in obrigatorios if not getattr(self, key)]
+        if transporte == TRANSPORTE_SEFIN:
+            if self.tributos_aproximados is None:
+                faltando.append('tributos_aproximados')
+        elif self.tipo_valor_tributos == 4 and self.aliquota_sn is None:
             faltando.append('aliquota_sn')
         return faltando
 
-    def require_complete(self):
-        faltando = self.missing()
+    def require_complete(self, transporte=TRANSPORTE_PORTAL):
+        faltando = self.missing(transporte)
         if faltando:
             detalhes = '; '.join(FISCAL_LABELS[key] for key in faltando)
             raise FiscalProfileIncomplete(
@@ -139,8 +174,8 @@ class FiscalDefaults:
                 faltando,
             )
 
-    def servico(self):
-        self.require_complete()
+    def servico(self, transporte=TRANSPORTE_PORTAL):
+        self.require_complete(transporte)
         return Servico(
             codigo_tributacao_nacional=self.codigo_tributacao_nacional,
             codigo_nbs=self.codigo_nbs,
@@ -150,9 +185,25 @@ class FiscalDefaults:
             informacoes_complementares=self.informacoes_complementares,
         )
 
-    def tributacao(self):
-        self.require_complete()
-        return Tributacao(tipo_valor_tributos=self.tipo_valor_tributos, aliquota_sn=self.aliquota_sn)
+    def tributacao(self, transporte=TRANSPORTE_PORTAL, *, reter_issqn=False, valor=None, reter_irrf=True):
+        """Tributação da nota. No caminho A, com `aliquota_irrf` gravada e o `valor` do serviço, calcula o IRRF
+        retido truncando nos centavos (R$ 1.234,50 x 1,5% = 18,5175 -> R$ 18,51).
+        Valor igual ou inferior a R$ 10,00 não é retido (Lei 9.430/1996, art. 67). `reter_irrf=False` emite a
+        nota sem a retenção."""
+        self.require_complete(transporte)
+        if transporte == TRANSPORTE_SEFIN:
+            irrf = None
+            if reter_irrf and self.aliquota_irrf is not None and valor is not None:
+                irrf = (Decimal(valor) * self.aliquota_irrf / 100).quantize(Decimal('0.01'), rounding=ROUND_DOWN)
+                if irrf <= IRRF_DISPENSADO_ATE:
+                    irrf = None
+            return Tributacao(
+                aliquota_iss=self.aliquota_iss, tributos_aproximados=self.tributos_aproximados,
+                reter_issqn=reter_issqn, retencao_irrf=irrf,
+            )
+        return Tributacao(
+            tipo_valor_tributos=self.tipo_valor_tributos, aliquota_sn=self.aliquota_sn, reter_issqn=reter_issqn
+        )
 
     def merged(self, **overrides):
         """Cópia com os campos informados (valores None são ignorados)."""
@@ -163,7 +214,8 @@ class FiscalDefaults:
     def as_dict(self, raw=False):
         data = {key: getattr(self, key) for key in (*SERVICO_KEYS, *TRIBUTACAO_KEYS)}
         if not raw:
-            data['aliquota_sn'] = str(self.aliquota_sn) if self.aliquota_sn is not None else None
+            for key in DECIMAL_KEYS:
+                data[key] = str(data[key]) if data[key] is not None else None
         return data
 
 
@@ -201,6 +253,13 @@ class Store:
 
     def session_file(self, name):
         return self.home / 'sessions' / f'{name}.json'
+
+    def certificate_path(self, name):
+        return self.home / 'certificados' / f'{name}.pfx'
+
+    @property
+    def tls_dir(self):
+        return self.home / 'tls'
 
     def ensure_home(self):
         self.home.mkdir(parents=True, exist_ok=True)
@@ -344,10 +403,10 @@ class Store:
         removed = stored.pop(name, None) is not None
         if removed:
             _write_private(self.credentials_path, json.dumps(stored, ensure_ascii=False, indent=2) + '\n')
-        session = self.session_file(name)
-        if session.exists():
-            session.unlink()
-            removed = True
+        for path in (self.session_file(name), self.certificate_path(name)):
+            if path.exists():
+                path.unlink()
+                removed = True
         return removed
 
     # ------------------------------------------------------------ padrões fiscais
@@ -355,11 +414,14 @@ class Store:
         entry = self.load_config()['empresas'].get(name) or {}
         servico = entry.get('servico') or {}
         tributacao = entry.get('tributacao') or {}
-        aliquota = tributacao.get('aliquota_sn')
+        decimais = {
+            key: _decimal(tributacao.get(key), key) if tributacao.get(key) not in (None, '') else None
+            for key in DECIMAL_KEYS
+        }
         return FiscalDefaults(
             **{key: str(servico.get(key) or '') for key in SERVICO_KEYS},
             tipo_valor_tributos=int(tributacao.get('tipo_valor_tributos') or 4),
-            aliquota_sn=_decimal(aliquota, 'alíquota do Simples Nacional') if aliquota not in (None, '') else None,
+            **decimais,
         )
 
     def save_fiscal(self, name, **fields):
@@ -377,10 +439,164 @@ class Store:
             'tipo_valor_tributos': updated.tipo_valor_tributos,
             'aliquota_sn': str(updated.aliquota_sn) if updated.aliquota_sn is not None else None,
         }
+        # Campos do caminho A só entram no arquivo quando informados (o formato do caminho B não muda).
+        for key in DECIMAL_KEYS[1:]:
+            if getattr(updated, key) is not None:
+                entry['tributacao'][key] = str(getattr(updated, key))
         if not config.get('padrao'):
             config['padrao'] = name
         self.save_config(config)
         return updated
+
+    # ------------------------------------------------------- caminho A (certificado)
+    def transporte(self, name):
+        """'sefin' para empresa conectada por certificado (caminho A); 'portal' nos demais casos."""
+        entry = self.load_config()['empresas'].get(name) or {}
+        return entry.get('transporte') or TRANSPORTE_PORTAL
+
+    def sefin_config(self, name):
+        entry = self.load_config()['empresas'].get(name) or {}
+        config = entry.get('sefin')
+        if not config:
+            raise ProfileError(f'a empresa "{name}" não está conectada pelo caminho A (certificado)')
+        return dict(config)
+
+    def save_sefin_options(self, name, *, leiaute=None, serie=None):
+        """Opções do caminho A. ``leiaute`` força o pacote de esquemas (para a virada da produção para a NT 009);
+        ``''`` volta ao padrão do ambiente. ``serie`` troca a série da DPS: a numeração da série nova começa no
+        registro local e a da série anterior fica guardada."""
+        from .dps import LEIAUTES
+
+        config = self.load_config()
+        entry = (config['empresas'].get(name) or {}).get('sefin')
+        if not entry:
+            raise ProfileError(f'a empresa "{name}" não está conectada pelo caminho A (certificado)')
+        if serie is not None:
+            if not 1 <= int(serie) <= 49999:
+                raise ProfileError('a série da DPS de aplicativo próprio vai de 1 a 49999')
+            entry['serie'] = int(serie)
+        if leiaute is not None:
+            if leiaute and leiaute not in LEIAUTES:
+                raise ProfileError(f'leiaute desconhecido: {leiaute!r} (use {", ".join(LEIAUTES)})')
+            if leiaute:
+                entry['leiaute'] = leiaute
+            else:
+                entry.pop('leiaute', None)
+        self.save_config(config)
+        return dict(entry)
+
+    def emitente(self, name):
+        from .dps import Emitente
+
+        config = self.sefin_config(name)
+        return Emitente(
+            cnpj=config['cnpj'], codigo_municipio=config['codigo_municipio'],
+            inscricao_municipal=config.get('inscricao_municipal') or '',
+        )
+
+    def _env_certificate(self, name):
+        env = self._environment()
+        prefix = env_prefix(name)
+        pairs = ((f'{prefix}_CERT', f'{prefix}_CERT_PASSWORD'), ('NFSEAI_CERT', 'NFSEAI_CERT_PASSWORD'))
+        for path_key, pass_key in pairs:
+            path, password = env.get(path_key), env.get(pass_key)
+            if path and password:
+                return Path(path).expanduser(), password
+            if path or password:
+                missing = pass_key if path else path_key
+                raise NotConnectedError(f'certificado incompleto no ambiente: falta {missing}')
+        return None
+
+    def certificate_origin(self, name):
+        """'ambiente', 'arquivo' ou None, sem ler a senha para fora."""
+        if self._env_certificate(name) is not None:
+            return ORIGEM_AMBIENTE
+        entry = self._stored_credentials().get(name) or {}
+        if entry.get('certificado_senha') and self.certificate_path(name).is_file():
+            return ORIGEM_ARQUIVO
+        return None
+
+    def load_certificate(self, name):
+        """Certificado A1 da empresa: ambiente primeiro, depois o arquivo. Nunca imprime a senha."""
+        from .certificado import CertificadoA1
+
+        from_env = self._env_certificate(name)
+        if from_env is not None:
+            path, password = from_env
+            if not path.is_file():
+                raise NotConnectedError(f'arquivo do certificado não encontrado: {path}')
+            return CertificadoA1.carregar(path, password)
+        entry = self._stored_credentials().get(name) or {}
+        if entry.get('certificado_senha') and self.certificate_path(name).is_file():
+            return CertificadoA1.carregar(self.certificate_path(name), entry['certificado_senha'])
+        raise NotConnectedError(
+            f'a empresa "{name}" não tem certificado digital conectado. Peça ao usuário para rodar '
+            f'`nfseai conectar --certificado <arquivo.pfx>{"" if name == DEFAULT_PROFILE else " --empresa " + name}` '
+            'no terminal dele; a senha do certificado é digitada lá, nunca no chat.'
+        )
+
+    def save_certificate(self, name, pfx, password, *, ambiente, codigo_municipio, inscricao_municipal='',
+                         serie=1, make_default=None):
+        """Confere e grava o certificado A1 da empresa e os dados do emitente no caminho A.
+
+        Nada é gravado se a senha estiver errada, se o certificado estiver vencido ou se não trouxer o CNPJ.
+        Devolve um resumo sem a senha.
+        """
+        from .certificado import CertificadoA1
+
+        name = validate_profile_name(name)
+        if ambiente not in AMBIENTES_SEFIN:
+            raise ProfileError(f'ambiente inválido: {ambiente!r} (use {" ou ".join(AMBIENTES_SEFIN)})')
+        if not re.fullmatch(r'\d{7}', (codigo_municipio or '').strip()):
+            raise ProfileError('o município emissor é o código IBGE de 7 dígitos')
+        if not 1 <= int(serie) <= 49999:
+            raise ProfileError('a série da DPS de aplicativo próprio vai de 1 a 49999')
+        dados = pfx if isinstance(pfx, bytes) else Path(pfx).expanduser().read_bytes()
+        certificado = CertificadoA1.carregar(dados, password)
+        certificado.conferir(certificado.cnpj or '0')
+        self.ensure_home()
+        self.private_dir(self.certificate_path(name).parent)
+        _write_private_bytes(self.certificate_path(name), dados)
+        stored = self._stored_credentials()
+        stored.setdefault(name, {})['certificado_senha'] = password
+        _write_private(self.credentials_path, json.dumps(stored, ensure_ascii=False, indent=2) + '\n')
+        config = self.load_config()
+        entry = config['empresas'].setdefault(name, {})
+        entry['transporte'] = TRANSPORTE_SEFIN
+        entry['sefin'] = {
+            'cnpj': certificado.cnpj,
+            'ambiente': ambiente,
+            'codigo_municipio': codigo_municipio.strip(),
+            'inscricao_municipal': (inscricao_municipal or '').strip(),
+            'serie': int(serie),
+        }
+        if make_default or (make_default is None and not config.get('padrao')):
+            config['padrao'] = name
+        self.save_config(config)
+        return {
+            'empresa': name,
+            'cnpj': certificado.cnpj,
+            'titular': certificado.titular,
+            'valido_ate': certificado.valido_ate.date().isoformat(),
+            'ambiente': ambiente,
+            'padrao': config.get('padrao') == name,
+        }
+
+
+def _write_private_bytes(path, data):
+    """Como `_write_private`, para conteúdo binário (o .pfx)."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=f'.{path.name}.', dir=str(path.parent))
+    try:
+        os.fchmod(fd, 0o600)
+        with os.fdopen(fd, 'wb') as handle:
+            handle.write(data)
+        os.replace(tmp, path)
+    except BaseException:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+        raise
 
 
 def validate_fiscal(fiscal):
@@ -400,6 +616,14 @@ def validate_fiscal(fiscal):
         raise ProfileError('valor aproximado dos tributos: use 4 (informar alíquota do Simples) ou 3 (não informar)')
     if fiscal.aliquota_sn is not None and not Decimal('0') < fiscal.aliquota_sn < Decimal('100'):
         raise ProfileError('a alíquota do Simples Nacional deve ficar entre 0 e 100')
+    if fiscal.aliquota_iss is not None and not Decimal('0') < fiscal.aliquota_iss < Decimal('10'):
+        raise ProfileError('a alíquota do ISSQN deve ficar entre 0 e 10 (%)')
+    if fiscal.aliquota_irrf is not None and not Decimal('0') < fiscal.aliquota_irrf <= Decimal('27.5'):
+        raise ProfileError('a alíquota do IRRF deve ficar entre 0 e 27,5 (%)')
+    for key in ('tributos_federais', 'tributos_estaduais', 'tributos_municipais'):
+        value = getattr(fiscal, key)
+        if value is not None and not Decimal('0') <= value < Decimal('1000'):
+            raise ProfileError(f'percentual inválido em {key}: {value}')
 
 
 def normalize_service_code(text):
